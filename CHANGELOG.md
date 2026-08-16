@@ -1,3 +1,9 @@
+## 0.3.0
+
+- 将 `toast` 1.0.1 的 Overlay 通知能力迁入 UI Kit，新增 `YeknomToast`。
+- 保留 `Toast` 兼容 API，现有调用方迁移依赖后无需改写调用代码。
+- Catalog 增加普通、成功、警告和错误 Toast 的交互示例。
+
 ## 0.2.4
 
 - `YeknomSearchField` 透传输入文本样式，便于紧凑工具栏保持现有字号。

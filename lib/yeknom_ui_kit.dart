@@ -11,6 +11,7 @@ export 'src/components/yeknom_status_badge.dart';
 export 'src/components/yeknom_surface.dart';
 export 'src/components/yeknom_switch.dart';
 export 'src/components/yeknom_text_field.dart';
+export 'src/components/yeknom_toast.dart';
 export 'src/foundation/yeknom_palette.dart';
 export 'src/foundation/yeknom_tokens.dart';
 export 'src/foundation/yeknom_tone.dart';

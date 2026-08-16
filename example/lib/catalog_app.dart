@@ -16,6 +16,7 @@ class _YeknomCatalogAppState extends State<YeknomCatalogApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: YeknomToast.navigatorKey,
       title: 'Yeknom UI Kit',
       debugShowCheckedModeBanner: false,
       theme: YeknomTheme.light(),

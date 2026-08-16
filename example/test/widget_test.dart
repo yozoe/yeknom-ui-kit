@@ -4,6 +4,8 @@ import 'package:yeknom_ui_kit/yeknom_ui_kit.dart';
 import 'package:yeknom_ui_kit_example/catalog_app.dart';
 
 void main() {
+  tearDown(YeknomToast.clear);
+
   testWidgets('desktop catalog navigates and switches theme', (tester) async {
     await tester.binding.setSurfaceSize(const Size(1280, 900));
     tester.platformDispatcher.textScaleFactorTestValue = 1.6;
@@ -27,8 +29,16 @@ void main() {
     expect(find.text('Surface 与标题'), findsOneWidget);
     expect(find.text('状态徽标'), findsOneWidget);
     expect(find.text('分段 Tab'), findsOneWidget);
+    expect(find.text('Toast 通知'), findsOneWidget);
     expect(find.byType(YeknomSearchField), findsOneWidget);
     expect(find.byType(YeknomSkeleton), findsNWidgets(3));
+
+    final successToastButton = find.text('成功 Toast');
+    await tester.ensureVisible(successToastButton);
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(successToastButton);
+    await tester.pump();
+    expect(find.text('操作已成功完成'), findsOneWidget);
 
     await tester.tap(find.byKey(const ValueKey('theme_mode_dark')));
     await tester.pump(const Duration(milliseconds: 300));

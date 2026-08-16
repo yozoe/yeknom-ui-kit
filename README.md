@@ -1,12 +1,12 @@
 # Yeknom UI Kit
 
 `yeknom_ui_kit` 是 Yeknom 桌面工具共用的 Flutter Material 视觉基础库，只包含主题、
-语义色和纯展示控件。
+语义色、展示控件和轻量 Overlay 通知组件。
 
 ## 边界
 
 - 只依赖 Flutter Material。
-- 不包含 Riverpod、网络、存储、toast、文件系统或平台插件。
+- 不包含 Riverpod、网络、存储、文件系统或平台插件。
 - 不包含品牌图片、字体、员工信息、内部地址和业务配置。
 - 文案、图标、资源、状态值与回调均由宿主应用传入。
 
@@ -17,7 +17,7 @@ dependencies:
   yeknom_ui_kit:
     git:
       url: git@github.com:yozoe/yeknom-ui-kit.git
-      ref: v0.2.4
+      ref: v0.3.0
 ```
 
 ## 主题
@@ -73,6 +73,7 @@ YeknomStatusBadge(
 - `YeknomSwitch` / `YeknomSwitchTile`：通用开关与列表开关。
 - `YeknomSegmentedTabs`：基于 Material `SegmentedButton` 的分段 Tab。
 - `YeknomSkeleton` / `YeknomLoadingView`：局部骨架占位和整体加载状态。
+- `YeknomToast`：支持普通、成功、警告、错误、堆叠和独立退场动画的 Overlay 通知。
 
 ```dart
 YeknomSurface(
@@ -89,6 +90,39 @@ YeknomSurface(
     ],
   ),
 );
+```
+
+## Toast 通知
+
+优先通过 `navigatorKey` 提供全局 Overlay：
+
+```dart
+MaterialApp(
+  navigatorKey: YeknomToast.navigatorKey,
+  home: const MyHomePage(),
+);
+
+YeknomToast.show('普通消息');
+YeknomToast.showSuccess('保存成功');
+YeknomToast.showWarning('请检查输入');
+YeknomToast.showError('保存失败');
+```
+
+如果宿主应用已经使用自己的 `navigatorKey`，也可以在 Navigator 的 Overlay 下方初始化：
+
+```dart
+YeknomToast.init(context);
+```
+
+`displayDuration`、`maxWidth` 和各状态默认颜色均可全局配置，单次调用也可以覆盖背景色和文字色。
+调用时找不到 Overlay 会直接返回，不会抛出异常。
+
+从 `package:toast` 迁移时，移除原依赖并改为导入 UI Kit 即可继续使用兼容入口：
+
+```dart
+import 'package:yeknom_ui_kit/yeknom_ui_kit.dart';
+
+Toast.showSuccess('保存成功');
 ```
 
 该仓库当前没有附带开源许可证；请按仓库所有者授予的权限使用。

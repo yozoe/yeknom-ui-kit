@@ -63,6 +63,12 @@ class ComponentsPage extends StatelessWidget {
               icon: Icons.hourglass_top_rounded,
               child: _LoadingSample(),
             ),
+            CatalogPanel(
+              title: 'Toast 通知',
+              description: 'Overlay 通知支持状态颜色、堆叠和独立退场。',
+              icon: Icons.notifications_active_outlined,
+              child: _ToastSample(),
+            ),
           ],
         ),
       ],
@@ -326,6 +332,36 @@ class _LoadingSample extends StatelessWidget {
         SizedBox(
           height: 120,
           child: YeknomLoadingView(title: '正在读取构建记录', semanticLabel: '构建记录加载中'),
+        ),
+      ],
+    );
+  }
+}
+
+class _ToastSample extends StatelessWidget {
+  const _ToastSample();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: YeknomSpacing.sm,
+      runSpacing: YeknomSpacing.sm,
+      children: [
+        YeknomButton.outlined(
+          onPressed: () => YeknomToast.show('普通 Toast 通知'),
+          label: const Text('普通 Toast'),
+        ),
+        YeknomButton.outlined(
+          onPressed: () => YeknomToast.showSuccess('操作已成功完成'),
+          label: const Text('成功 Toast'),
+        ),
+        YeknomButton.outlined(
+          onPressed: () => YeknomToast.showWarning('请检查当前输入'),
+          label: const Text('警告 Toast'),
+        ),
+        YeknomButton.outlined(
+          onPressed: () => YeknomToast.showError('操作执行失败'),
+          label: const Text('错误 Toast'),
         ),
       ],
     );
