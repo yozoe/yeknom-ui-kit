@@ -223,6 +223,7 @@ void main() {
               YeknomSwitch(
                 value: switched,
                 semanticLabel: 'Notifications',
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 onChanged: (value) => setState(() => switched = value),
               ),
               YeknomSegmentedTabs<String>(
@@ -247,6 +248,10 @@ void main() {
 
     expect(switched, isTrue);
     expect(selected, 'two');
+    expect(
+      tester.widget<Switch>(find.byType(Switch)).materialTapTargetSize,
+      MaterialTapTargetSize.shrinkWrap,
+    );
   });
 
   testWidgets('skeleton and loading view support reduced motion', (

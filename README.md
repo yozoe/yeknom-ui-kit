@@ -17,7 +17,7 @@ dependencies:
   yeknom_ui_kit:
     git:
       url: git@github.com:yozoe/yeknom-ui-kit.git
-      ref: v0.2.0
+      ref: v0.2.1
 ```
 
 ## 主题

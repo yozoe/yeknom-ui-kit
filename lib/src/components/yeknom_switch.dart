@@ -8,6 +8,7 @@ class YeknomSwitch extends StatelessWidget {
     this.semanticLabel,
     this.focusNode,
     this.autofocus = false,
+    this.materialTapTargetSize,
   });
 
   final bool value;
@@ -15,6 +16,7 @@ class YeknomSwitch extends StatelessWidget {
   final String? semanticLabel;
   final FocusNode? focusNode;
   final bool autofocus;
+  final MaterialTapTargetSize? materialTapTargetSize;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class YeknomSwitch extends StatelessWidget {
       onChanged: onChanged,
       focusNode: focusNode,
       autofocus: autofocus,
+      materialTapTargetSize: materialTapTargetSize,
     );
     if (semanticLabel == null) return control;
     return Semantics(

@@ -1,3 +1,7 @@
+## 0.2.1
+
+- `YeknomSwitch` 透传 `materialTapTargetSize`，便于保持紧凑工具栏布局。
+
 ## 0.2.0
 
 - 增加可在 macOS 与 Web 独立运行的组件 Catalog example。
