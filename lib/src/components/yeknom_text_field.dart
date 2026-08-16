@@ -96,6 +96,7 @@ class YeknomSearchField extends StatefulWidget {
     this.focusNode,
     this.hintText,
     this.decoration = const InputDecoration(),
+    this.style,
     this.autofocus = false,
     this.enabled = true,
     this.showClearButton = true,
@@ -109,6 +110,7 @@ class YeknomSearchField extends StatefulWidget {
   final FocusNode? focusNode;
   final String? hintText;
   final InputDecoration decoration;
+  final TextStyle? style;
   final bool autofocus;
   final bool enabled;
   final bool showClearButton;
@@ -188,6 +190,7 @@ class _YeknomSearchFieldState extends State<YeknomSearchField> {
       controller: _controller,
       focusNode: widget.focusNode,
       decoration: decoration,
+      style: widget.style,
       autofocus: widget.autofocus,
       enabled: widget.enabled,
       textInputAction: TextInputAction.search,

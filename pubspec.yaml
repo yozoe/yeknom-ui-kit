@@ -1,6 +1,6 @@
 name: yeknom_ui_kit
 description: Shared visual language and reusable Flutter UI components for Yeknom desktop tools.
-version: 0.2.3
+version: 0.2.4
 publish_to: none
 repository: https://github.com/yozoe/yeknom-ui-kit
 

@@ -157,6 +157,7 @@ void main() {
             YeknomSearchField(
               key: const ValueKey('search'),
               clearTooltip: 'Clear query',
+              style: const TextStyle(fontSize: 12.5),
               onChanged: (value) => changed = value,
               onClear: () => cleared += 1,
             ),
@@ -176,6 +177,18 @@ void main() {
     expect(submitted, 'release/2.0');
     expect(changed, '');
     expect(cleared, 1);
+    expect(
+      tester
+          .widget<TextField>(
+            find.descendant(
+              of: find.byType(YeknomSearchField),
+              matching: find.byType(TextField),
+            ),
+          )
+          .style
+          ?.fontSize,
+      12.5,
+    );
   });
 
   testWidgets('loading buttons remain disabled and expose progress semantics', (

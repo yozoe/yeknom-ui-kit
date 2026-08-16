@@ -1,3 +1,7 @@
+## 0.2.4
+
+- `YeknomSearchField` 透传输入文本样式，便于紧凑工具栏保持现有字号。
+
 ## 0.2.3
 
 - `YeknomButton` 同时支持 `label` 和 Material 风格的 `child` 参数，便于等价迁移现有按钮。
