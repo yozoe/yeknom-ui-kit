@@ -4,7 +4,8 @@ enum YeknomButtonVariant { filled, outlined, text }
 
 class YeknomButton extends StatelessWidget {
   const YeknomButton({
-    required this.label,
+    Widget? label,
+    Widget? child,
     super.key,
     this.onPressed,
     this.icon,
@@ -14,10 +15,12 @@ class YeknomButton extends StatelessWidget {
     this.style,
     this.focusNode,
     this.autofocus = false,
-  });
+  }) : assert((label == null) != (child == null)),
+       label = label ?? child ?? const SizedBox.shrink();
 
   const YeknomButton.filled({
-    required Widget label,
+    Widget? label,
+    Widget? child,
     Key? key,
     VoidCallback? onPressed,
     Widget? icon,
@@ -29,6 +32,7 @@ class YeknomButton extends StatelessWidget {
   }) : this(
          key: key,
          label: label,
+         child: child,
          onPressed: onPressed,
          icon: icon,
          loading: loading,
@@ -39,7 +43,8 @@ class YeknomButton extends StatelessWidget {
        );
 
   const YeknomButton.outlined({
-    required Widget label,
+    Widget? label,
+    Widget? child,
     Key? key,
     VoidCallback? onPressed,
     Widget? icon,
@@ -51,6 +56,7 @@ class YeknomButton extends StatelessWidget {
   }) : this(
          key: key,
          label: label,
+         child: child,
          onPressed: onPressed,
          icon: icon,
          variant: YeknomButtonVariant.outlined,
@@ -62,7 +68,8 @@ class YeknomButton extends StatelessWidget {
        );
 
   const YeknomButton.text({
-    required Widget label,
+    Widget? label,
+    Widget? child,
     Key? key,
     VoidCallback? onPressed,
     Widget? icon,
@@ -74,6 +81,7 @@ class YeknomButton extends StatelessWidget {
   }) : this(
          key: key,
          label: label,
+         child: child,
          onPressed: onPressed,
          icon: icon,
          variant: YeknomButtonVariant.text,

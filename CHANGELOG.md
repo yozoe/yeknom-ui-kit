@@ -1,3 +1,7 @@
+## 0.2.3
+
+- `YeknomButton` 同时支持 `label` 和 Material 风格的 `child` 参数，便于等价迁移现有按钮。
+
 ## 0.2.2
 
 - `YeknomIconButton` 透传尺寸、密度、颜色和布局参数，并允许无 tooltip 的装饰性按钮。

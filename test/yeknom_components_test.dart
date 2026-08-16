@@ -210,6 +210,22 @@ void main() {
     semantics.dispose();
   });
 
+  testWidgets('buttons accept Material-style child content', (tester) async {
+    var presses = 0;
+    await tester.pumpWidget(
+      _app(
+        YeknomButton.text(
+          onPressed: () => presses += 1,
+          child: const Text('Details'),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Details'));
+
+    expect(presses, 1);
+  });
+
   testWidgets('icon button preserves compact layout parameters', (
     tester,
   ) async {
