@@ -571,7 +571,7 @@ class CatalogVersion extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = YeknomPalette.of(context);
     return Text(
-      'v0.2.1',
+      'v0.2.2',
       style: TextStyle(
         color: palette.faint,
         fontFamily: 'monospace',

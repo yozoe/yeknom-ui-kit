@@ -192,24 +192,36 @@ class YeknomButton extends StatelessWidget {
 class YeknomIconButton extends StatelessWidget {
   const YeknomIconButton({
     required this.icon,
-    required this.tooltip,
     super.key,
     this.onPressed,
+    this.tooltip,
     this.loading = false,
     this.loadingSemanticsLabel,
     this.style,
     this.iconSize,
+    this.padding = const EdgeInsets.all(8),
+    this.constraints,
+    this.color,
+    this.disabledColor,
+    this.visualDensity,
+    this.alignment = Alignment.center,
     this.focusNode,
     this.autofocus = false,
   });
 
   final Widget icon;
-  final String tooltip;
+  final String? tooltip;
   final VoidCallback? onPressed;
   final bool loading;
   final String? loadingSemanticsLabel;
   final ButtonStyle? style;
   final double? iconSize;
+  final EdgeInsetsGeometry padding;
+  final BoxConstraints? constraints;
+  final Color? color;
+  final Color? disabledColor;
+  final VisualDensity? visualDensity;
+  final AlignmentGeometry alignment;
   final FocusNode? focusNode;
   final bool autofocus;
 
@@ -220,6 +232,12 @@ class YeknomIconButton extends StatelessWidget {
       tooltip: loading ? null : tooltip,
       style: style,
       iconSize: iconSize,
+      padding: padding,
+      constraints: constraints,
+      color: color,
+      disabledColor: disabledColor,
+      visualDensity: visualDensity,
+      alignment: alignment,
       focusNode: focusNode,
       autofocus: autofocus,
       icon: loading

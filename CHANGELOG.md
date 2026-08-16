@@ -1,3 +1,7 @@
+## 0.2.2
+
+- `YeknomIconButton` 透传尺寸、密度、颜色和布局参数，并允许无 tooltip 的装饰性按钮。
+
 ## 0.2.1
 
 - `YeknomSwitch` 透传 `materialTapTargetSize`，便于保持紧凑工具栏布局。

@@ -210,6 +210,29 @@ void main() {
     semantics.dispose();
   });
 
+  testWidgets('icon button preserves compact layout parameters', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(
+        const YeknomIconButton(
+          icon: Icon(Icons.close),
+          padding: EdgeInsets.zero,
+          constraints: BoxConstraints.tightFor(width: 30, height: 30),
+          visualDensity: VisualDensity.compact,
+          color: Colors.red,
+        ),
+      ),
+    );
+
+    final button = tester.widget<IconButton>(find.byType(IconButton));
+    expect(button.tooltip, isNull);
+    expect(button.padding, EdgeInsets.zero);
+    expect(button.constraints?.maxWidth, 30);
+    expect(button.visualDensity, VisualDensity.compact);
+    expect(button.color, Colors.red);
+  });
+
   testWidgets('switches and segmented tabs return user selections', (
     tester,
   ) async {
