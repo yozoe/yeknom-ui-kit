@@ -1,8 +1,7 @@
-name: yeknom_ui_kit
-description: Shared visual language and reusable Flutter UI components for Yeknom desktop tools.
-version: 0.2.0
+name: yeknom_ui_kit_example
+description: Interactive catalog for the Yeknom Flutter UI kit.
+version: 0.1.0+1
 publish_to: none
-repository: https://github.com/yozoe/yeknom-ui-kit
 
 environment:
   sdk: ">=3.8.1 <4.0.0"
@@ -11,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  yeknom_ui_kit:
+    path: ../
 
 dev_dependencies:
   flutter_test:

@@ -135,4 +135,151 @@ void main() {
     );
     semantics.dispose();
   });
+
+  testWidgets('text and search fields preserve input callbacks', (
+    tester,
+  ) async {
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    var submitted = '';
+    var changed = '';
+    var cleared = 0;
+
+    await tester.pumpWidget(
+      _app(
+        Column(
+          children: [
+            YeknomTextField(
+              key: const ValueKey('text'),
+              controller: controller,
+              onSubmitted: (value) => submitted = value,
+            ),
+            YeknomSearchField(
+              key: const ValueKey('search'),
+              clearTooltip: 'Clear query',
+              onChanged: (value) => changed = value,
+              onClear: () => cleared += 1,
+            ),
+          ],
+        ),
+      ),
+    );
+
+    await tester.enterText(find.byKey(const ValueKey('text')), 'release/2.0');
+    await tester.testTextInput.receiveAction(TextInputAction.done);
+    await tester.enterText(find.byKey(const ValueKey('search')), 'artifact');
+    await tester.pump();
+    await tester.tap(find.byTooltip('Clear query'));
+    await tester.pump();
+
+    expect(controller.text, 'release/2.0');
+    expect(submitted, 'release/2.0');
+    expect(changed, '');
+    expect(cleared, 1);
+  });
+
+  testWidgets('loading buttons remain disabled and expose progress semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    var presses = 0;
+    await tester.pumpWidget(
+      _app(
+        YeknomButton.filled(
+          label: const Text('Build'),
+          loading: true,
+          loadingSemanticsLabel: 'Building',
+          onPressed: () => presses += 1,
+        ),
+      ),
+    );
+
+    await tester.tap(find.byType(YeknomButton));
+
+    expect(presses, 0);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(
+      tester.getSemantics(find.byType(YeknomButton)),
+      matchesSemantics(
+        label: 'Building',
+        isButton: true,
+        hasEnabledState: true,
+        isEnabled: false,
+      ),
+    );
+    semantics.dispose();
+  });
+
+  testWidgets('switches and segmented tabs return user selections', (
+    tester,
+  ) async {
+    var switched = false;
+    var selected = 'one';
+    await tester.pumpWidget(
+      _app(
+        StatefulBuilder(
+          builder: (context, setState) => Column(
+            children: [
+              YeknomSwitch(
+                value: switched,
+                semanticLabel: 'Notifications',
+                onChanged: (value) => setState(() => switched = value),
+              ),
+              YeknomSegmentedTabs<String>(
+                segments: const [
+                  ButtonSegment(value: 'one', label: Text('One')),
+                  ButtonSegment(value: 'two', label: Text('Two')),
+                ],
+                selected: {selected},
+                onSelectionChanged: (value) {
+                  setState(() => selected = value.single);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.byType(Switch));
+    await tester.tap(find.text('Two'));
+    await tester.pump();
+
+    expect(switched, isTrue);
+    expect(selected, 'two');
+  });
+
+  testWidgets('skeleton and loading view support reduced motion', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: YeknomTheme.light(),
+        home: MediaQuery(
+          data: const MediaQueryData(disableAnimations: true),
+          child: const Scaffold(
+            body: Column(
+              children: [
+                YeknomSkeleton.line(
+                  width: 180,
+                  semanticLabel: 'Loading summary',
+                ),
+                Expanded(
+                  child: YeknomLoadingView(
+                    title: 'Loading builds',
+                    semanticLabel: 'Builds are loading',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump(const Duration(seconds: 2));
+
+    expect(find.text('Loading builds'), findsOneWidget);
+    expect(find.byType(YeknomSkeleton), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 }

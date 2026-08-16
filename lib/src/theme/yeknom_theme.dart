@@ -218,6 +218,32 @@ abstract final class YeknomTheme {
           shape: WidgetStatePropertyAll(compactShape),
         ),
       ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
+            return resolvedPalette.faint.withValues(alpha: 0.7);
+          }
+          if (states.contains(WidgetState.selected)) {
+            return dark ? resolvedPalette.bench : Colors.white;
+          }
+          return resolvedPalette.muted;
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
+            return resolvedPalette.field.withValues(alpha: 0.6);
+          }
+          if (states.contains(WidgetState.selected)) {
+            return resolvedPalette.active;
+          }
+          return resolvedPalette.field;
+        }),
+        trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return resolvedPalette.active;
+          }
+          return resolvedPalette.controlBorder;
+        }),
+      ),
       chipTheme: base.chipTheme.copyWith(
         backgroundColor: resolvedPalette.field,
         selectedColor: resolvedPalette.selected,

@@ -17,7 +17,7 @@ dependencies:
   yeknom_ui_kit:
     git:
       url: git@github.com:yozoe/yeknom-ui-kit.git
-      ref: v0.1.0
+      ref: v0.2.0
 ```
 
 ## 主题
@@ -33,6 +33,19 @@ MaterialApp(
   home: const MyHomePage(),
 );
 ```
+
+## 独立运行 Catalog
+
+仓库包含一个可独立运行的组件 Catalog，支持 macOS 与 Web：
+
+```bash
+cd example
+flutter pub get
+flutter run -d macos
+```
+
+Web 预览可改用 `flutter run -d chrome`。Catalog 可以切换系统、浅色和深色主题，
+并展示语义色、间距、圆角、表单、状态与全部公开控件。
 
 通过语义色而不是硬编码颜色表达界面状态：
 
@@ -55,6 +68,11 @@ YeknomStatusBadge(
 - `YeknomStateView`：可参数化的 empty/error 状态。
 - `YeknomInfoRow`：详情对话框中的 label/value 行。
 - `YeknomIconFrame`：统一尺寸和底色的图标容器。
+- `YeknomTextField` / `YeknomSearchField`：通用输入和自带清空行为的搜索输入。
+- `YeknomButton` / `YeknomIconButton`：支持 filled、outlined、text 及 loading 状态。
+- `YeknomSwitch` / `YeknomSwitchTile`：通用开关与列表开关。
+- `YeknomSegmentedTabs`：基于 Material `SegmentedButton` 的分段 Tab。
+- `YeknomSkeleton` / `YeknomLoadingView`：局部骨架占位和整体加载状态。
 
 ```dart
 YeknomSurface(
@@ -67,7 +85,7 @@ YeknomSurface(
         description: '选择需要构建的来源分支',
       ),
       SizedBox(height: YeknomSpacing.lg),
-      TextField(),
+      YeknomTextField(),
     ],
   ),
 );

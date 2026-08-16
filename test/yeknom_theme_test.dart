@@ -65,6 +65,10 @@ void main() {
     expect(theme.colorScheme.secondary, palette.signal);
     expect(theme.colorScheme.error, palette.fault);
     expect(theme.inputDecorationTheme.fillColor, palette.field);
+    expect(
+      theme.switchTheme.trackColor?.resolve({WidgetState.selected}),
+      palette.active,
+    );
     expect(theme.dialogTheme.backgroundColor, palette.module);
     expect(theme.extension<YeknomPalette>(), same(palette));
   });

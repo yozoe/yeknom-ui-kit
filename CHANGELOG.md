@@ -1,3 +1,9 @@
+## 0.2.0
+
+- 增加可在 macOS 与 Web 独立运行的组件 Catalog example。
+- 增加输入框、搜索框、按钮、图标按钮、Switch、分段 Tab、Skeleton 和 loading 组件。
+- 增加统一的 Switch 主题。
+
 ## 0.1.0
 
 - 提供浅色与深色 `YeknomPalette`、完整 Material 3 `YeknomTheme`。
