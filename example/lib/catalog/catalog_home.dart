@@ -10,12 +10,16 @@ import 'states_page.dart';
 class CatalogHome extends StatefulWidget {
   const CatalogHome({
     required this.themeMode,
+    required this.colorPreset,
     required this.onThemeModeChanged,
+    required this.onColorPresetChanged,
     super.key,
   });
 
   final ThemeMode themeMode;
+  final YeknomColorPreset colorPreset;
   final ValueChanged<ThemeMode> onThemeModeChanged;
+  final ValueChanged<YeknomColorPreset> onColorPresetChanged;
 
   @override
   State<CatalogHome> createState() => _CatalogHomeState();
@@ -36,15 +40,19 @@ class _CatalogHomeState extends State<CatalogHome> {
               return _DesktopShell(
                 selected: _selected,
                 themeMode: widget.themeMode,
+                colorPreset: widget.colorPreset,
                 onSectionChanged: _select,
                 onThemeModeChanged: widget.onThemeModeChanged,
+                onColorPresetChanged: widget.onColorPresetChanged,
               );
             }
             return _CompactShell(
               selected: _selected,
               themeMode: widget.themeMode,
+              colorPreset: widget.colorPreset,
               onSectionChanged: _select,
               onThemeModeChanged: widget.onThemeModeChanged,
+              onColorPresetChanged: widget.onColorPresetChanged,
             );
           },
         ),
@@ -63,14 +71,18 @@ class _DesktopShell extends StatelessWidget {
   const _DesktopShell({
     required this.selected,
     required this.themeMode,
+    required this.colorPreset,
     required this.onSectionChanged,
     required this.onThemeModeChanged,
+    required this.onColorPresetChanged,
   });
 
   final CatalogSection selected;
   final ThemeMode themeMode;
+  final YeknomColorPreset colorPreset;
   final ValueChanged<CatalogSection> onSectionChanged;
   final ValueChanged<ThemeMode> onThemeModeChanged;
+  final ValueChanged<YeknomColorPreset> onColorPresetChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -81,18 +93,25 @@ class _DesktopShell extends StatelessWidget {
           width: 242,
           child: ColoredBox(
             color: palette.module,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const _BrandLockup(),
-                Divider(color: palette.border),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(18, 18, 18, 8),
-                  child: _NavigationLabel(),
+            child: CustomScrollView(
+              key: const ValueKey('desktop_catalog_controls'),
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const _BrandLockup(),
+                      Divider(color: palette.border),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(18, 18, 18, 8),
+                        child: _NavigationLabel(),
+                      ),
+                    ],
+                  ),
                 ),
-                Expanded(
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  sliver: SliverList.list(
                     children: [
                       for (final section in CatalogSection.values)
                         Padding(
@@ -106,35 +125,51 @@ class _DesktopShell extends StatelessWidget {
                     ],
                   ),
                 ),
-                Divider(color: palette.border),
-                Padding(
-                  padding: const EdgeInsets.all(YeknomSpacing.md),
+                SliverFillRemaining(
+                  hasScrollBody: false,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const _ThemeLabel(),
-                      const SizedBox(height: YeknomSpacing.sm),
-                      _ThemeModeSelector(
-                        themeMode: themeMode,
-                        onChanged: onThemeModeChanged,
-                      ),
-                      const SizedBox(height: YeknomSpacing.md),
-                      Row(
-                        children: [
-                          const CatalogVersion(),
-                          const Spacer(),
-                          Icon(Icons.circle, color: palette.ack, size: 8),
-                          const SizedBox(width: 6),
-                          Text(
-                            'READY',
-                            style: TextStyle(
-                              color: palette.muted,
-                              fontFamily: 'monospace',
-                              fontSize: 9,
-                              fontWeight: FontWeight.w700,
+                      Divider(color: palette.border),
+                      Padding(
+                        padding: const EdgeInsets.all(YeknomSpacing.md),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const _ThemeLabel(),
+                            const SizedBox(height: YeknomSpacing.sm),
+                            _ThemeModeSelector(
+                              themeMode: themeMode,
+                              onChanged: onThemeModeChanged,
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: YeknomSpacing.md),
+                            const _ColorLabel(),
+                            const SizedBox(height: YeknomSpacing.sm),
+                            _ColorPresetSelector(
+                              preset: colorPreset,
+                              onChanged: onColorPresetChanged,
+                            ),
+                            const SizedBox(height: YeknomSpacing.md),
+                            Row(
+                              children: [
+                                const CatalogVersion(),
+                                const Spacer(),
+                                Icon(Icons.circle, color: palette.ack, size: 8),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'READY',
+                                  style: TextStyle(
+                                    color: palette.muted,
+                                    fontFamily: 'monospace',
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -161,14 +196,18 @@ class _CompactShell extends StatelessWidget {
   const _CompactShell({
     required this.selected,
     required this.themeMode,
+    required this.colorPreset,
     required this.onSectionChanged,
     required this.onThemeModeChanged,
+    required this.onColorPresetChanged,
   });
 
   final CatalogSection selected;
   final ThemeMode themeMode;
+  final YeknomColorPreset colorPreset;
   final ValueChanged<CatalogSection> onSectionChanged;
   final ValueChanged<ThemeMode> onThemeModeChanged;
+  final ValueChanged<YeknomColorPreset> onColorPresetChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -204,6 +243,12 @@ class _CompactShell extends StatelessWidget {
                   ],
                 ),
               ),
+              _ColorPresetSelector(
+                compact: true,
+                preset: colorPreset,
+                onChanged: onColorPresetChanged,
+              ),
+              const SizedBox(width: 4),
               _ThemeModeSelector(
                 compact: true,
                 themeMode: themeMode,
@@ -262,6 +307,8 @@ class _BrandLockup extends StatelessWidget {
               children: [
                 Text(
                   'Yeknom UI Kit',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(fontSize: 14),
@@ -269,6 +316,8 @@ class _BrandLockup extends StatelessWidget {
                 const SizedBox(height: 3),
                 Text(
                   'VISUAL SYSTEM',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: palette.signal,
                     fontFamily: 'monospace',
@@ -295,7 +344,7 @@ class _NavigationLabel extends StatelessWidget {
     return Text(
       'CATALOG',
       style: TextStyle(
-        color: palette.faint,
+        color: palette.muted,
         fontFamily: 'monospace',
         fontSize: 9,
         fontWeight: FontWeight.w700,
@@ -463,12 +512,142 @@ class _ThemeLabel extends StatelessWidget {
     return Text(
       'APPEARANCE',
       style: TextStyle(
-        color: palette.faint,
+        color: palette.muted,
         fontFamily: 'monospace',
         fontSize: 9,
         fontWeight: FontWeight.w700,
         letterSpacing: 1.05,
       ),
+    );
+  }
+}
+
+class _ColorLabel extends StatelessWidget {
+  const _ColorLabel();
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = YeknomPalette.of(context);
+    return Text(
+      'COLOR COMBINATION',
+      style: TextStyle(
+        color: palette.muted,
+        fontFamily: 'monospace',
+        fontSize: 9,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 1.05,
+      ),
+    );
+  }
+}
+
+class _ColorPresetSelector extends StatelessWidget {
+  const _ColorPresetSelector({
+    required this.preset,
+    required this.onChanged,
+    this.compact = false,
+  });
+
+  final YeknomColorPreset preset;
+  final ValueChanged<YeknomColorPreset> onChanged;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = YeknomPalette.of(context);
+    final button = PopupMenuButton<YeknomColorPreset>(
+      key: const ValueKey('color_preset_selector'),
+      initialValue: preset,
+      tooltip: '切换配色方案',
+      position: PopupMenuPosition.under,
+      offset: compact ? Offset.zero : const Offset(0, -246),
+      onSelected: onChanged,
+      itemBuilder: (context) => [
+        for (final option in YeknomColorPreset.values)
+          PopupMenuItem(
+            key: ValueKey('color_preset_${option.name}'),
+            value: option,
+            child: Row(
+              children: [
+                _PresetSignal(preset: option),
+                const SizedBox(width: YeknomSpacing.md),
+                Text(option.label),
+                if (option == preset) ...[
+                  const Spacer(),
+                  Icon(Icons.check, color: palette.active, size: 16),
+                ],
+              ],
+            ),
+          ),
+      ],
+      child: compact
+          ? Padding(
+              padding: const EdgeInsets.all(8),
+              child: _PresetSignal(preset: preset, compact: true),
+            )
+          : Container(
+              height: 38,
+              padding: const EdgeInsets.symmetric(horizontal: 11),
+              decoration: BoxDecoration(
+                color: palette.field,
+                border: Border.all(color: palette.controlBorder),
+                borderRadius: YeknomRadii.control,
+              ),
+              child: Row(
+                children: [
+                  _PresetSignal(preset: preset),
+                  const SizedBox(width: YeknomSpacing.sm),
+                  Expanded(
+                    child: Text(
+                      preset.label,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium?.copyWith(color: palette.trace),
+                    ),
+                  ),
+                  Icon(
+                    Icons.unfold_more_rounded,
+                    color: palette.muted,
+                    size: 16,
+                  ),
+                ],
+              ),
+            ),
+    );
+
+    return Semantics(
+      button: true,
+      label: '配色方案：${preset.label}',
+      child: button,
+    );
+  }
+}
+
+class _PresetSignal extends StatelessWidget {
+  const _PresetSignal({required this.preset, this.compact = false});
+
+  final YeknomColorPreset preset;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = YeknomPalette.fromPreset(
+      preset,
+      Theme.of(context).brightness,
+    );
+    final size = compact ? 7.0 : 8.0;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (final color in [colors.active, colors.signal, colors.ack]) ...[
+          Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          if (color != colors.ack) const SizedBox(width: 3),
+        ],
+      ],
     );
   }
 }
@@ -486,9 +665,8 @@ class _ThemeModeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<ThemeMode>(
+    return YeknomSegmentedTabs<ThemeMode>(
       key: const ValueKey('theme_mode_selector'),
-      showSelectedIcon: false,
       segments: [
         ButtonSegment(
           value: ThemeMode.system,
@@ -525,6 +703,19 @@ class _ThemeModeSelector extends StatelessWidget {
       onSelectionChanged: (selection) => onChanged(selection.first),
     );
   }
+}
+
+extension on YeknomColorPreset {
+  String get label => switch (this) {
+    YeknomColorPreset.workbench => '工作台',
+    YeknomColorPreset.cobalt => '钴蓝',
+    YeknomColorPreset.orchid => '兰紫',
+    YeknomColorPreset.graphite => '石墨',
+    YeknomColorPreset.obsidian => '黑曜',
+    YeknomColorPreset.midnight => '午夜',
+    YeknomColorPreset.blackberry => '紫黑',
+    YeknomColorPreset.sage => '护眼',
+  };
 }
 
 class _CatalogPage extends StatelessWidget {
@@ -571,9 +762,9 @@ class CatalogVersion extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = YeknomPalette.of(context);
     return Text(
-      'v0.2.4',
+      'v0.3.0',
       style: TextStyle(
-        color: palette.faint,
+        color: palette.muted,
         fontFamily: 'monospace',
         fontSize: 9.5,
         fontWeight: FontWeight.w600,

@@ -21,7 +21,7 @@ class OverviewPage extends StatelessWidget {
           children: const [
             CatalogPanel(
               title: '交互基线',
-              description: '按钮、输入与分段选择直接继承主题。',
+              description: '使用 UI Kit 正式组件展示统一交互。',
               icon: Icons.tune_rounded,
               child: _ControlsSample(),
             ),
@@ -356,7 +356,7 @@ class _ControlsSampleState extends State<_ControlsSample> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const TextField(
+        const YeknomTextField(
           decoration: InputDecoration(
             labelText: '构建分支',
             hintText: '例如 release/1.4.0',
@@ -364,38 +364,35 @@ class _ControlsSampleState extends State<_ControlsSample> {
           ),
         ),
         const SizedBox(height: YeknomSpacing.md),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: SegmentedButton<String>(
-            segments: const [
-              ButtonSegment(value: 'Debug', label: Text('Debug')),
-              ButtonSegment(value: 'Staging', label: Text('Staging')),
-              ButtonSegment(value: 'Release', label: Text('Release')),
-            ],
-            selected: {_environment},
-            onSelectionChanged: (selection) {
-              setState(() {
-                _environment = selection.first;
-              });
-            },
-          ),
+        YeknomSegmentedTabs<String>(
+          segments: const [
+            ButtonSegment(value: 'Debug', label: Text('Debug')),
+            ButtonSegment(value: 'Staging', label: Text('Staging')),
+            ButtonSegment(value: 'Release', label: Text('Release')),
+          ],
+          selected: {_environment},
+          onSelectionChanged: (selection) {
+            setState(() {
+              _environment = selection.first;
+            });
+          },
         ),
         const SizedBox(height: YeknomSpacing.lg),
         Wrap(
           spacing: YeknomSpacing.sm,
           runSpacing: YeknomSpacing.sm,
           children: [
-            FilledButton.icon(
+            YeknomButton.filled(
               onPressed: () {},
               icon: const Icon(Icons.play_arrow_rounded, size: 17),
               label: const Text('开始构建'),
             ),
-            OutlinedButton.icon(
+            YeknomButton.outlined(
               onPressed: () {},
               icon: const Icon(Icons.save_outlined, size: 16),
               label: const Text('保存预设'),
             ),
-            TextButton(onPressed: () {}, child: const Text('重置')),
+            YeknomButton.text(onPressed: () {}, label: const Text('重置')),
           ],
         ),
       ],

@@ -34,6 +34,24 @@ MaterialApp(
 );
 ```
 
+明暗模式与颜色组合相互独立。内置 `workbench`、`cobalt`、`orchid`、
+`graphite`、`obsidian`、`midnight`、`blackberry` 和 `sage` 八套组合，
+原有工作台配色仍是默认值。三套近黑方案使用更接近纯黑的深色表面；护眼方案
+使用暖灰绿表面，避免纯白和纯黑：
+
+```dart
+const preset = YeknomColorPreset.cobalt;
+
+MaterialApp(
+  theme: YeknomTheme.light(preset: preset),
+  darkTheme: YeknomTheme.dark(preset: preset),
+  themeMode: ThemeMode.system,
+);
+```
+
+需要品牌定制时仍可传入完整的 `YeknomPalette`；同时指定 `palette` 与 `preset`
+时，以 `palette` 为准。
+
 ## 独立运行 Catalog
 
 仓库包含一个可独立运行的组件 Catalog，支持 macOS 与 Web：
@@ -67,11 +85,14 @@ YeknomStatusBadge(
 - `YeknomStatusBadge`：带语义支持的状态徽标。
 - `YeknomStateView`：可参数化的 empty/error 状态。
 - `YeknomInfoRow`：详情对话框中的 label/value 行。
+- `YeknomListCard`：统一选中、悬停、焦点、禁用和导航状态的列表卡片。
 - `YeknomIconFrame`：统一尺寸和底色的图标容器。
 - `YeknomTextField` / `YeknomSearchField`：通用输入和自带清空行为的搜索输入。
+- `YeknomDropdown`：带统一字段轮廓、菜单密度和选项布局的表单下拉框。
 - `YeknomButton` / `YeknomIconButton`：支持 filled、outlined、text 及 loading 状态。
-- `YeknomSwitch` / `YeknomSwitchTile`：通用开关与列表开关。
-- `YeknomSegmentedTabs`：基于 Material `SegmentedButton` 的分段 Tab。
+- `YeknomDialog` / `YeknomDialogAction`：分区式响应对话框与危险操作样式。
+- `YeknomSwitch` / `YeknomSwitchTile`：状态灯式紧凑开关与统一列表开关。
+- `YeknomSegmentedTabs`：带轨道、选中填充和完整桌面交互状态的分段 Tab。
 - `YeknomSkeleton` / `YeknomLoadingView`：局部骨架占位和整体加载状态。
 - `YeknomToast`：支持普通、成功、警告、错误、堆叠和独立退场动画的 Overlay 通知。
 
@@ -114,8 +135,10 @@ YeknomToast.showError('保存失败');
 YeknomToast.init(context);
 ```
 
-`displayDuration`、`maxWidth` 和各状态默认颜色均可全局配置，单次调用也可以覆盖背景色和文字色。
-调用时找不到 Overlay 会直接返回，不会抛出异常。
+未显式配置颜色时，Toast 会使用当前 `YeknomPalette` 的普通、成功、警告和错误
+语义色，并自动选择高对比度文字色。`displayDuration`、`maxWidth` 和各状态颜色
+仍可全局配置，单次调用也可以覆盖背景色和文字色；显式配置始终优先。调用时
+找不到 Overlay 会直接返回，不会抛出异常。
 
 从 `package:toast` 迁移时，移除原依赖并改为导入 UI Kit 即可继续使用兼容入口：
 

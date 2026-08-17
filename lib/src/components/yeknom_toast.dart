@@ -2,6 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../foundation/yeknom_palette.dart';
+
+enum _ToastTone { neutral, success, warning, error }
+
 /// Overlay-based notifications shared by Yeknom applications.
 abstract final class YeknomToast {
   static final GlobalKey<NavigatorState> navigatorKey =
@@ -13,11 +17,46 @@ abstract final class YeknomToast {
 
   static Duration displayDuration = const Duration(seconds: 2);
   static double maxWidth = 480;
-  static Color defaultBackgroundColor = Colors.black87;
-  static Color successBackgroundColor = Colors.green.shade700;
-  static Color errorBackgroundColor = Colors.red.shade700;
-  static Color warningBackgroundColor = Colors.orange.shade700;
-  static Color defaultTextColor = Colors.white;
+  static Color _defaultBackgroundColor = Colors.black87;
+  static Color _successBackgroundColor = Colors.green.shade700;
+  static Color _errorBackgroundColor = Colors.red.shade700;
+  static Color _warningBackgroundColor = Colors.orange.shade700;
+  static Color _defaultTextColor = Colors.white;
+  static bool _defaultBackgroundColorOverridden = false;
+  static bool _successBackgroundColorOverridden = false;
+  static bool _errorBackgroundColorOverridden = false;
+  static bool _warningBackgroundColorOverridden = false;
+  static bool _defaultTextColorOverridden = false;
+
+  static Color get defaultBackgroundColor => _defaultBackgroundColor;
+  static set defaultBackgroundColor(Color value) {
+    _defaultBackgroundColor = value;
+    _defaultBackgroundColorOverridden = true;
+  }
+
+  static Color get successBackgroundColor => _successBackgroundColor;
+  static set successBackgroundColor(Color value) {
+    _successBackgroundColor = value;
+    _successBackgroundColorOverridden = true;
+  }
+
+  static Color get errorBackgroundColor => _errorBackgroundColor;
+  static set errorBackgroundColor(Color value) {
+    _errorBackgroundColor = value;
+    _errorBackgroundColorOverridden = true;
+  }
+
+  static Color get warningBackgroundColor => _warningBackgroundColor;
+  static set warningBackgroundColor(Color value) {
+    _warningBackgroundColor = value;
+    _warningBackgroundColorOverridden = true;
+  }
+
+  static Color get defaultTextColor => _defaultTextColor;
+  static set defaultTextColor(Color value) {
+    _defaultTextColor = value;
+    _defaultTextColorOverridden = true;
+  }
 
   /// Registers a context below an [Overlay] when [navigatorKey] cannot be used.
   static void init(BuildContext context) {
@@ -27,8 +66,9 @@ abstract final class YeknomToast {
   static void show(String message, {Color? backgroundColor, Color? textColor}) {
     _showToast(
       message,
-      backgroundColor ?? defaultBackgroundColor,
-      textColor ?? defaultTextColor,
+      tone: _ToastTone.neutral,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
     );
   }
 
@@ -39,8 +79,9 @@ abstract final class YeknomToast {
   }) {
     _showToast(
       message,
-      backgroundColor ?? successBackgroundColor,
-      textColor ?? defaultTextColor,
+      tone: _ToastTone.success,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
     );
   }
 
@@ -51,8 +92,9 @@ abstract final class YeknomToast {
   }) {
     _showToast(
       message,
-      backgroundColor ?? errorBackgroundColor,
-      textColor ?? defaultTextColor,
+      tone: _ToastTone.error,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
     );
   }
 
@@ -63,16 +105,18 @@ abstract final class YeknomToast {
   }) {
     _showToast(
       message,
-      backgroundColor ?? warningBackgroundColor,
-      textColor ?? defaultTextColor,
+      tone: _ToastTone.warning,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
     );
   }
 
   static void _showToast(
-    String message,
-    Color backgroundColor,
-    Color textColor,
-  ) {
+    String message, {
+    required _ToastTone tone,
+    Color? backgroundColor,
+    Color? textColor,
+  }) {
     final overlayState =
         navigatorKey.currentState?.overlay ??
         (_globalContext == null
@@ -80,10 +124,22 @@ abstract final class YeknomToast {
             : Overlay.maybeOf(_globalContext!, rootOverlay: true));
     if (overlayState == null) return;
 
+    final palette = Theme.of(overlayState.context).extension<YeknomPalette>();
+    final usesThemeBackground =
+        backgroundColor == null &&
+        palette != null &&
+        !_backgroundColorOverridden(tone);
+    final resolvedBackgroundColor =
+        backgroundColor ?? _resolveBackgroundColor(tone, palette);
+    final resolvedTextColor =
+        textColor ??
+        (_defaultTextColorOverridden || !usesThemeBackground
+            ? _defaultTextColor
+            : _bestForeground(resolvedBackgroundColor, palette));
     final toastEntry = _ToastEntry(
       message: message,
-      backgroundColor: backgroundColor,
-      textColor: textColor,
+      backgroundColor: resolvedBackgroundColor,
+      textColor: resolvedTextColor,
     );
     _activeToasts.add(toastEntry);
 
@@ -117,6 +173,81 @@ abstract final class YeknomToast {
     _overlayEntry = null;
     _activeToasts.clear();
     _globalContext = null;
+  }
+
+  @visibleForTesting
+  static void resetConfiguration() {
+    displayDuration = const Duration(seconds: 2);
+    maxWidth = 480;
+    _defaultBackgroundColor = Colors.black87;
+    _successBackgroundColor = Colors.green.shade700;
+    _errorBackgroundColor = Colors.red.shade700;
+    _warningBackgroundColor = Colors.orange.shade700;
+    _defaultTextColor = Colors.white;
+    _defaultBackgroundColorOverridden = false;
+    _successBackgroundColorOverridden = false;
+    _errorBackgroundColorOverridden = false;
+    _warningBackgroundColorOverridden = false;
+    _defaultTextColorOverridden = false;
+  }
+
+  static bool _backgroundColorOverridden(_ToastTone tone) {
+    return switch (tone) {
+      _ToastTone.neutral => _defaultBackgroundColorOverridden,
+      _ToastTone.success => _successBackgroundColorOverridden,
+      _ToastTone.warning => _warningBackgroundColorOverridden,
+      _ToastTone.error => _errorBackgroundColorOverridden,
+    };
+  }
+
+  static Color _resolveBackgroundColor(
+    _ToastTone tone,
+    YeknomPalette? palette,
+  ) {
+    if (palette != null && !_backgroundColorOverridden(tone)) {
+      return switch (tone) {
+        _ToastTone.neutral => palette.trace,
+        _ToastTone.success => palette.ack,
+        _ToastTone.warning => palette.warning,
+        _ToastTone.error => palette.fault,
+      };
+    }
+    return switch (tone) {
+      _ToastTone.neutral => _defaultBackgroundColor,
+      _ToastTone.success => _successBackgroundColor,
+      _ToastTone.warning => _warningBackgroundColor,
+      _ToastTone.error => _errorBackgroundColor,
+    };
+  }
+
+  static Color _bestForeground(Color background, YeknomPalette? palette) {
+    final candidates = <Color>[
+      if (palette != null) ...[
+        palette.bench.withValues(alpha: 1),
+        palette.module.withValues(alpha: 1),
+        palette.trace.withValues(alpha: 1),
+      ],
+      Colors.black,
+      Colors.white,
+    ];
+    return candidates.reduce(
+      (best, candidate) =>
+          _contrast(candidate, background) > _contrast(best, background)
+          ? candidate
+          : best,
+    );
+  }
+
+  static double _contrast(Color first, Color second) {
+    final firstLuminance = first.computeLuminance();
+    final secondLuminance = second.computeLuminance();
+    final lighter = firstLuminance > secondLuminance
+        ? firstLuminance
+        : secondLuminance;
+    final darker = firstLuminance > secondLuminance
+        ? secondLuminance
+        : firstLuminance;
+    return (lighter + 0.05) / (darker + 0.05);
   }
 }
 

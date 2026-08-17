@@ -1,3 +1,23 @@
+## Unreleased
+
+- 新增工作台、钴蓝、兰紫和石墨四套 `YeknomColorPreset` 颜色组合。
+- 增加黑曜、午夜和紫黑三套近黑背景颜色组合。
+- 增加一套避免纯白、纯黑表面的 `sage` 护眼颜色组合。
+- `YeknomTheme` 支持独立组合颜色预设与浅色、深色模式，并保持原有默认配色兼容。
+- Catalog 增加颜色组合切换和即时预览。
+- Toast 未显式配置颜色时跟随当前语义色，并保留静态颜色覆盖能力。
+- 改善低强调文字对比度及短窗口下的 Catalog 侧栏滚动。
+- 新增统一风格的 `YeknomListCard`、`YeknomDropdown`、`YeknomDialog` 和
+  `YeknomDialogAction`，覆盖交互状态、表单校验、响应式布局和危险操作。
+- 重绘 `YeknomSegmentedTabs` 为紧凑轨道式 Tab，以单一选中填充强化层级，
+  并补齐悬停、焦点、禁用和横向滚动状态。
+- 重绘 `YeknomSwitch` 为紧凑状态灯式开关，并让 `YeknomSwitchTile` 复用同一
+  控件，统一轨道、滑块、焦点和禁用状态。
+- 补齐交互组件的样式透传、禁用态、拖动、键盘与读屏语义、窄窗口溢出回归
+  覆盖，并保持 Flutter 3.32.1 兼容。
+- Catalog 总览页交互示例改用 `YeknomTextField`、`YeknomSegmentedTabs` 和
+  `YeknomButton`，与组件页保持一致。
+
 ## 0.3.0
 
 - 将 `toast` 1.0.1 的 Overlay 通知能力迁入 UI Kit，新增 `YeknomToast`。

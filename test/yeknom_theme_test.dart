@@ -39,6 +39,122 @@ void main() {
       expect(midpoint.active, Color.lerp(light.active, dark.active, 0.5));
       expect(midpoint.dark, isTrue);
     });
+
+    test('provides distinct light and dark color presets', () {
+      final lightActiveColors = <Color>{};
+      final darkActiveColors = <Color>{};
+
+      for (final preset in YeknomColorPreset.values) {
+        final light = YeknomPalette.fromPreset(preset, Brightness.light);
+        final dark = YeknomPalette.fromPreset(preset, Brightness.dark);
+
+        expect(light.dark, isFalse, reason: preset.name);
+        expect(dark.dark, isTrue, reason: preset.name);
+        expect(light.module, isNot(light.bench), reason: preset.name);
+        expect(dark.module, isNot(dark.bench), reason: preset.name);
+        lightActiveColors.add(light.active);
+        darkActiveColors.add(dark.active);
+      }
+
+      expect(lightActiveColors, hasLength(YeknomColorPreset.values.length));
+      expect(darkActiveColors, hasLength(YeknomColorPreset.values.length));
+    });
+
+    test('keeps the original workbench palette as the default', () {
+      for (final brightness in Brightness.values) {
+        final defaultPalette = YeknomPalette.fromBrightness(brightness);
+        final workbenchPalette = YeknomPalette.fromPreset(
+          YeknomColorPreset.workbench,
+          brightness,
+        );
+
+        expect(
+          [
+            defaultPalette.bench,
+            defaultPalette.module,
+            defaultPalette.trace,
+            defaultPalette.signal,
+            defaultPalette.active,
+            defaultPalette.ack,
+            defaultPalette.fault,
+            defaultPalette.warning,
+            defaultPalette.onSignal,
+          ],
+          [
+            workbenchPalette.bench,
+            workbenchPalette.module,
+            workbenchPalette.trace,
+            workbenchPalette.signal,
+            workbenchPalette.active,
+            workbenchPalette.ack,
+            workbenchPalette.fault,
+            workbenchPalette.warning,
+            workbenchPalette.onSignal,
+          ],
+        );
+      }
+    });
+
+    test('near-black presets keep their dark surfaces close to black', () {
+      for (final preset in [
+        YeknomColorPreset.obsidian,
+        YeknomColorPreset.midnight,
+        YeknomColorPreset.blackberry,
+      ]) {
+        final palette = YeknomPalette.fromPreset(preset, Brightness.dark);
+
+        expect(
+          palette.bench.computeLuminance(),
+          lessThan(0.005),
+          reason: '${preset.name} bench',
+        );
+        expect(
+          palette.module.computeLuminance(),
+          lessThan(0.012),
+          reason: '${preset.name} module',
+        );
+        expect(
+          _contrast(palette.module, palette.trace),
+          greaterThanOrEqualTo(7),
+          reason: '${preset.name} primary text',
+        );
+      }
+    });
+
+    test('sage preset avoids pure white and pure black surfaces', () {
+      final light = YeknomPalette.fromPreset(
+        YeknomColorPreset.sage,
+        Brightness.light,
+      );
+      final dark = YeknomPalette.fromPreset(
+        YeknomColorPreset.sage,
+        Brightness.dark,
+      );
+
+      expect(light.bench, isNot(Colors.white));
+      expect(light.module, isNot(Colors.white));
+      expect(dark.bench, isNot(Colors.black));
+      expect(dark.module, isNot(Colors.black));
+      expect(_contrast(light.module, light.trace), greaterThanOrEqualTo(7));
+      expect(_contrast(dark.module, dark.trace), greaterThanOrEqualTo(7));
+    });
+
+    test('muted text meets contrast after compositing on surfaces', () {
+      for (final preset in YeknomColorPreset.values) {
+        for (final brightness in Brightness.values) {
+          final palette = YeknomPalette.fromPreset(preset, brightness);
+
+          for (final surface in [palette.bench, palette.module]) {
+            final composited = Color.alphaBlend(palette.muted, surface);
+            expect(
+              _contrast(composited, surface),
+              greaterThanOrEqualTo(4.5),
+              reason: '${preset.name} ${brightness.name}',
+            );
+          }
+        }
+      }
+    });
   });
 
   testWidgets('theme attaches its palette and maps component colors', (
@@ -88,22 +204,55 @@ void main() {
     expect(theme.extension<YeknomPalette>(), same(custom));
   });
 
-  test('solid color-scheme text roles meet normal-text contrast', () {
-    for (final theme in [YeknomTheme.light(), YeknomTheme.dark()]) {
-      final scheme = theme.colorScheme;
+  test('theme applies a preset and gives an explicit palette precedence', () {
+    final presetTheme = YeknomTheme.light(preset: YeknomColorPreset.orchid);
+    final custom = YeknomPalette.fromBrightness(
+      Brightness.light,
+    ).copyWith(active: Colors.yellow);
+    final customTheme = YeknomTheme.light(
+      preset: YeknomColorPreset.orchid,
+      palette: custom,
+    );
 
-      expect(
-        _contrast(scheme.surface, scheme.onSurface),
-        greaterThanOrEqualTo(4.5),
-      );
-      expect(
-        _contrast(scheme.primary, scheme.onPrimary),
-        greaterThanOrEqualTo(4.5),
-      );
-      expect(
-        _contrast(scheme.error, scheme.onError),
-        greaterThanOrEqualTo(4.5),
-      );
+    expect(
+      presetTheme.extension<YeknomPalette>()?.active,
+      YeknomPalette.fromPreset(
+        YeknomColorPreset.orchid,
+        Brightness.light,
+      ).active,
+    );
+    expect(customTheme.extension<YeknomPalette>(), same(custom));
+  });
+
+  test('solid color-scheme text roles meet normal-text contrast', () {
+    for (final preset in YeknomColorPreset.values) {
+      for (final theme in [
+        YeknomTheme.light(preset: preset),
+        YeknomTheme.dark(preset: preset),
+      ]) {
+        final scheme = theme.colorScheme;
+
+        expect(
+          _contrast(scheme.surface, scheme.onSurface),
+          greaterThanOrEqualTo(4.5),
+          reason: '${preset.name} surface',
+        );
+        expect(
+          _contrast(scheme.primary, scheme.onPrimary),
+          greaterThanOrEqualTo(4.5),
+          reason: '${preset.name} primary',
+        );
+        expect(
+          _contrast(scheme.secondary, scheme.onSecondary),
+          greaterThanOrEqualTo(4.5),
+          reason: '${preset.name} secondary',
+        );
+        expect(
+          _contrast(scheme.error, scheme.onError),
+          greaterThanOrEqualTo(4.5),
+          reason: '${preset.name} error',
+        );
+      }
     }
   });
 }

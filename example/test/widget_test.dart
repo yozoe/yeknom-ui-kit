@@ -18,6 +18,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('把工作台视觉，\n变成可复用的系统'), findsOneWidget);
+    expect(find.byType(YeknomTextField), findsOneWidget);
+    expect(find.byType(YeknomSegmentedTabs<String>), findsOneWidget);
+    expect(find.byType(YeknomSegmentedTabs<ThemeMode>), findsOneWidget);
+    expect(find.byType(YeknomButton), findsNWidgets(3));
     expect(
       find.byKey(const ValueKey('catalog_nav_components')),
       findsOneWidget,
@@ -33,6 +37,22 @@ void main() {
     expect(find.byType(YeknomSearchField), findsOneWidget);
     expect(find.byType(YeknomSkeleton), findsNWidgets(3));
 
+    await tester.tap(find.byKey(const ValueKey('color_preset_selector')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    final eyeCarePreset = find.byKey(const ValueKey('color_preset_sage'));
+    await tester.ensureVisible(eyeCarePreset);
+    await tester.pump();
+    await tester.tap(eyeCarePreset.last);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+
+    var materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(
+      materialApp.theme?.extension<YeknomPalette>()?.active,
+      YeknomPalette.fromPreset(YeknomColorPreset.sage, Brightness.light).active,
+    );
+
     final successToastButton = find.text('成功 Toast');
     await tester.ensureVisible(successToastButton);
     await tester.pump(const Duration(milliseconds: 300));
@@ -43,9 +63,13 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('theme_mode_dark')));
     await tester.pump(const Duration(milliseconds: 300));
 
-    final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(materialApp.themeMode, ThemeMode.dark);
     expect(materialApp.darkTheme?.extension<YeknomPalette>()?.dark, isTrue);
+    expect(
+      materialApp.darkTheme?.extension<YeknomPalette>()?.active,
+      YeknomPalette.fromPreset(YeknomColorPreset.sage, Brightness.dark).active,
+    );
     expect(tester.takeException(), isNull);
   });
 
@@ -69,6 +93,32 @@ void main() {
 
     expect(find.text('间距比例'), findsOneWidget);
     expect(find.text('32 px'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('short desktop height keeps appearance controls scrollable', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(1000, 360));
+    tester.platformDispatcher.textScaleFactorTestValue = 1.6;
+    addTearDown(() {
+      tester.binding.setSurfaceSize(null);
+      tester.platformDispatcher.clearTextScaleFactorTestValue();
+    });
+
+    await tester.pumpWidget(const YeknomCatalogApp());
+    await tester.pump();
+
+    expect(
+      find.byKey(const ValueKey('desktop_catalog_controls')),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+    await tester.ensureVisible(
+      find.byKey(const ValueKey('color_preset_selector')),
+    );
+    await tester.pump();
+
     expect(tester.takeException(), isNull);
   });
 

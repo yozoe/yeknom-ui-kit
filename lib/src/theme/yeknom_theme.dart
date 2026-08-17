@@ -3,16 +3,29 @@ import 'package:flutter/material.dart';
 import '../foundation/yeknom_palette.dart';
 
 abstract final class YeknomTheme {
-  static ThemeData light({YeknomPalette? palette}) {
-    return build(Brightness.light, palette: palette);
+  static ThemeData light({
+    YeknomPalette? palette,
+    YeknomColorPreset preset = YeknomColorPreset.workbench,
+  }) {
+    return build(Brightness.light, palette: palette, preset: preset);
   }
 
-  static ThemeData dark({YeknomPalette? palette}) {
-    return build(Brightness.dark, palette: palette);
+  static ThemeData dark({
+    YeknomPalette? palette,
+    YeknomColorPreset preset = YeknomColorPreset.workbench,
+  }) {
+    return build(Brightness.dark, palette: palette, preset: preset);
   }
 
-  static ThemeData build(Brightness brightness, {YeknomPalette? palette}) {
-    final resolvedPalette = palette ?? YeknomPalette.fromBrightness(brightness);
+  /// Builds a theme from a curated [preset] or an explicitly supplied
+  /// [palette]. When both are provided, [palette] takes precedence.
+  static ThemeData build(
+    Brightness brightness, {
+    YeknomPalette? palette,
+    YeknomColorPreset preset = YeknomColorPreset.workbench,
+  }) {
+    final resolvedPalette =
+        palette ?? YeknomPalette.fromPreset(preset, brightness);
     final dark = brightness == Brightness.dark;
     final base = ThemeData(useMaterial3: true, brightness: brightness);
     final scheme =
@@ -161,7 +174,7 @@ abstract final class YeknomTheme {
           vertical: 13,
         ),
         labelStyle: TextStyle(color: resolvedPalette.muted, fontSize: 12),
-        hintStyle: TextStyle(color: resolvedPalette.faint, fontSize: 12),
+        hintStyle: TextStyle(color: resolvedPalette.muted, fontSize: 12),
         prefixIconColor: resolvedPalette.muted,
         suffixIconColor: resolvedPalette.muted,
         border: fieldBorder,

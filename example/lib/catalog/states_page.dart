@@ -27,7 +27,7 @@ class _StatesPageState extends State<StatesPage> {
           title: '状态视图',
           description: '切换 empty/error，检查长文案、操作按钮和滚动边界。',
           icon: Icons.splitscreen_outlined,
-          trailing: SegmentedButton<_PreviewState>(
+          trailing: YeknomSegmentedTabs<_PreviewState>(
             key: const ValueKey('state_preview_selector'),
             segments: const [
               ButtonSegment(

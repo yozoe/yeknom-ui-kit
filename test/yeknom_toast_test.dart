@@ -5,13 +5,7 @@ import 'package:yeknom_ui_kit/yeknom_ui_kit.dart';
 void main() {
   tearDown(() {
     YeknomToast.clear();
-    YeknomToast.displayDuration = const Duration(seconds: 2);
-    YeknomToast.maxWidth = 480;
-    YeknomToast.defaultBackgroundColor = Colors.black87;
-    YeknomToast.successBackgroundColor = Colors.green.shade700;
-    YeknomToast.errorBackgroundColor = Colors.red.shade700;
-    YeknomToast.warningBackgroundColor = Colors.orange.shade700;
-    YeknomToast.defaultTextColor = Colors.white;
+    YeknomToast.resetConfiguration();
   });
 
   testWidgets('shows and dismisses through navigatorKey', (tester) async {
@@ -94,6 +88,48 @@ void main() {
     expect(overrideText.style?.color, textColor);
   });
 
+  testWidgets('uses palette status colors when no override is configured', (
+    tester,
+  ) async {
+    final palette = YeknomPalette.fromPreset(
+      YeknomColorPreset.sage,
+      Brightness.light,
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        navigatorKey: YeknomToast.navigatorKey,
+        theme: YeknomTheme.light(preset: YeknomColorPreset.sage),
+        home: const Scaffold(body: SizedBox()),
+      ),
+    );
+
+    YeknomToast.showSuccess('Palette success');
+    YeknomToast.showWarning('Palette warning');
+    YeknomToast.showError('Palette error');
+    await tester.pump();
+
+    for (final (message, expectedColor) in [
+      ('Palette success', palette.ack),
+      ('Palette warning', palette.warning),
+      ('Palette error', palette.fault),
+    ]) {
+      final decoration = tester.widget<DecoratedBox>(
+        find.ancestor(
+          of: find.text(message),
+          matching: find.byType(DecoratedBox),
+        ),
+      );
+      final text = tester.widget<Text>(find.text(message));
+      final background = (decoration.decoration as BoxDecoration).color!;
+
+      expect(background, expectedColor);
+      expect(
+        _contrast(background, text.style!.color!),
+        greaterThanOrEqualTo(4.5),
+      );
+    }
+  });
+
   testWidgets('stacks multiline notifications without overlap', (tester) async {
     await tester.binding.setSurfaceSize(const Size(320, 640));
     addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -169,4 +205,16 @@ void main() {
 
     expect(find.text('Compatible'), findsOneWidget);
   });
+}
+
+double _contrast(Color first, Color second) {
+  final firstLuminance = first.computeLuminance();
+  final secondLuminance = second.computeLuminance();
+  final lighter = firstLuminance > secondLuminance
+      ? firstLuminance
+      : secondLuminance;
+  final darker = firstLuminance > secondLuminance
+      ? secondLuminance
+      : firstLuminance;
+  return (lighter + 0.05) / (darker + 0.05);
 }

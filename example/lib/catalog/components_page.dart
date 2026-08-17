@@ -34,6 +34,12 @@ class ComponentsPage extends StatelessWidget {
               child: _InfoRowSample(),
             ),
             CatalogPanel(
+              title: '列表卡片',
+              description: '统一选中、悬停、焦点和禁用状态。',
+              icon: Icons.view_list_outlined,
+              child: _ListCardSample(),
+            ),
+            CatalogPanel(
               title: '图标容器',
               description: '统一功能入口与状态图标的尺寸和底色。',
               icon: Icons.grid_view_rounded,
@@ -56,6 +62,12 @@ class ComponentsPage extends StatelessWidget {
               description: '适合少量互斥视图或参数的快速切换。',
               icon: Icons.view_week_outlined,
               child: _SegmentedTabsSample(),
+            ),
+            CatalogPanel(
+              title: '对话框',
+              description: '固定标题、内容和操作区，并区分危险操作。',
+              icon: Icons.web_asset_outlined,
+              child: _DialogSample(),
             ),
             CatalogPanel(
               title: '加载与骨架',
@@ -151,6 +163,55 @@ class _InfoRowSample extends StatelessWidget {
   }
 }
 
+class _ListCardSample extends StatefulWidget {
+  const _ListCardSample();
+
+  @override
+  State<_ListCardSample> createState() => _ListCardSampleState();
+}
+
+class _ListCardSampleState extends State<_ListCardSample> {
+  String _selected = 'stable';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        YeknomListCard(
+          leading: const Icon(Icons.verified_outlined),
+          title: const Text('稳定版本'),
+          subtitle: const Text('release/1.4.0 · 推荐用于正式构建'),
+          selected: _selected == 'stable',
+          selectable: true,
+          showChevron: true,
+          onPressed: () => setState(() => _selected = 'stable'),
+        ),
+        const SizedBox(height: YeknomSpacing.sm),
+        YeknomListCard(
+          leading: const Icon(Icons.science_outlined),
+          title: const Text('预览版本'),
+          subtitle: const Text('develop · 包含尚未发布的功能'),
+          selected: _selected == 'preview',
+          selectable: true,
+          trailing: const YeknomStatusBadge(
+            label: 'Beta',
+            tone: YeknomTone.warning,
+          ),
+          onPressed: () => setState(() => _selected = 'preview'),
+        ),
+        const SizedBox(height: YeknomSpacing.sm),
+        YeknomListCard(
+          leading: const Icon(Icons.lock_outline_rounded),
+          title: const Text('归档版本'),
+          subtitle: const Text('当前账号没有访问权限'),
+          enabled: false,
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+}
+
 class _IconFrameSample extends StatelessWidget {
   const _IconFrameSample();
 
@@ -240,16 +301,17 @@ class _InputSampleState extends State<_InputSample> {
         const SizedBox(height: YeknomSpacing.md),
         const YeknomSearchField(hintText: '搜索分支或制品', clearTooltip: '清空搜索'),
         const SizedBox(height: YeknomSpacing.md),
-        DropdownMenu<String>(
-          initialSelection: 'macOS',
-          expandedInsets: EdgeInsets.zero,
-          label: const Text('目标平台'),
-          leadingIcon: const Icon(Icons.devices_outlined),
-          dropdownMenuEntries: const [
-            DropdownMenuEntry(value: 'macOS', label: 'macOS'),
-            DropdownMenuEntry(value: 'Web', label: 'Web'),
+        YeknomDropdown<String>(
+          initialValue: 'macOS',
+          decoration: const InputDecoration(
+            labelText: '目标平台',
+            prefixIcon: Icon(Icons.devices_outlined),
+          ),
+          options: const [
+            YeknomDropdownOption(value: 'macOS', label: 'macOS'),
+            YeknomDropdownOption(value: 'Web', label: 'Web'),
           ],
-          onSelected: (_) {},
+          onChanged: (_) {},
         ),
         const SizedBox(height: YeknomSpacing.sm),
         YeknomSwitchTile(
@@ -334,6 +396,78 @@ class _LoadingSample extends StatelessWidget {
           child: YeknomLoadingView(title: '正在读取构建记录', semanticLabel: '构建记录加载中'),
         ),
       ],
+    );
+  }
+}
+
+class _DialogSample extends StatelessWidget {
+  const _DialogSample();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: YeknomSpacing.sm,
+      runSpacing: YeknomSpacing.sm,
+      children: [
+        YeknomButton.outlined(
+          icon: const Icon(Icons.tune_rounded, size: 16),
+          label: const Text('打开确认框'),
+          onPressed: () => _showConfirmation(context),
+        ),
+        YeknomButton.outlined(
+          icon: const Icon(Icons.delete_outline_rounded, size: 16),
+          label: const Text('打开危险操作'),
+          onPressed: () => _showDanger(context),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _showConfirmation(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (dialogContext) => YeknomDialog(
+        icon: Icons.rocket_launch_outlined,
+        title: const Text('开始正式构建？'),
+        content: const Text('系统将使用 release/1.4.0 分支生成 macOS 安装包。'),
+        onClose: () => Navigator.pop(dialogContext),
+        closeTooltip: '关闭',
+        actions: [
+          YeknomDialogAction(
+            variant: YeknomDialogActionVariant.secondary,
+            onPressed: () => Navigator.pop(dialogContext),
+            label: const Text('取消'),
+          ),
+          YeknomDialogAction(
+            onPressed: () => Navigator.pop(dialogContext),
+            label: const Text('开始构建'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showDanger(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (dialogContext) => YeknomDialog.danger(
+        title: const Text('删除构建记录？'),
+        content: const Text('该操作会移除记录及关联制品，完成后无法撤销。'),
+        onClose: () => Navigator.pop(dialogContext),
+        closeTooltip: '关闭',
+        actions: [
+          YeknomDialogAction(
+            variant: YeknomDialogActionVariant.secondary,
+            onPressed: () => Navigator.pop(dialogContext),
+            label: const Text('保留记录'),
+          ),
+          YeknomDialogAction(
+            variant: YeknomDialogActionVariant.danger,
+            onPressed: () => Navigator.pop(dialogContext),
+            label: const Text('确认删除'),
+          ),
+        ],
+      ),
     );
   }
 }
