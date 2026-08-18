@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:yeknom_ui_kit/yeknom_ui_kit.dart';
+import 'package:yeknom_ui_kit/yeknom_workbench.dart';
 
 import 'catalog_section.dart';
 import 'components_page.dart';
 import 'foundations_page.dart';
 import 'overview_page.dart';
 import 'states_page.dart';
+import '../experience/example_experience.dart';
+import '../experience/experience_switcher.dart';
 
-class CatalogHome extends StatefulWidget {
+class CatalogHome extends StatelessWidget {
   const CatalogHome({
+    required this.selected,
+    required this.experience,
     required this.themeMode,
     required this.colorPreset,
+    required this.onSectionChanged,
+    required this.onExperienceChanged,
     required this.onThemeModeChanged,
     required this.onColorPresetChanged,
     super.key,
   });
 
+  final CatalogSection selected;
+  final ExampleExperience experience;
   final ThemeMode themeMode;
   final YeknomColorPreset colorPreset;
+  final ValueChanged<CatalogSection> onSectionChanged;
+  final ValueChanged<ExampleExperience> onExperienceChanged;
   final ValueChanged<ThemeMode> onThemeModeChanged;
   final ValueChanged<YeknomColorPreset> onColorPresetChanged;
-
-  @override
-  State<CatalogHome> createState() => _CatalogHomeState();
-}
-
-class _CatalogHomeState extends State<CatalogHome> {
-  CatalogSection _selected = CatalogSection.overview;
 
   @override
   Widget build(BuildContext context) {
@@ -38,49 +41,51 @@ class _CatalogHomeState extends State<CatalogHome> {
           builder: (context, constraints) {
             if (constraints.maxWidth >= 960) {
               return _DesktopShell(
-                selected: _selected,
-                themeMode: widget.themeMode,
-                colorPreset: widget.colorPreset,
-                onSectionChanged: _select,
-                onThemeModeChanged: widget.onThemeModeChanged,
-                onColorPresetChanged: widget.onColorPresetChanged,
+                selected: selected,
+                experience: experience,
+                themeMode: themeMode,
+                colorPreset: colorPreset,
+                onSectionChanged: onSectionChanged,
+                onExperienceChanged: onExperienceChanged,
+                onThemeModeChanged: onThemeModeChanged,
+                onColorPresetChanged: onColorPresetChanged,
               );
             }
             return _CompactShell(
-              selected: _selected,
-              themeMode: widget.themeMode,
-              colorPreset: widget.colorPreset,
-              onSectionChanged: _select,
-              onThemeModeChanged: widget.onThemeModeChanged,
-              onColorPresetChanged: widget.onColorPresetChanged,
+              selected: selected,
+              experience: experience,
+              themeMode: themeMode,
+              colorPreset: colorPreset,
+              onSectionChanged: onSectionChanged,
+              onExperienceChanged: onExperienceChanged,
+              onThemeModeChanged: onThemeModeChanged,
+              onColorPresetChanged: onColorPresetChanged,
             );
           },
         ),
       ),
     );
   }
-
-  void _select(CatalogSection section) {
-    setState(() {
-      _selected = section;
-    });
-  }
 }
 
 class _DesktopShell extends StatelessWidget {
   const _DesktopShell({
     required this.selected,
+    required this.experience,
     required this.themeMode,
     required this.colorPreset,
     required this.onSectionChanged,
+    required this.onExperienceChanged,
     required this.onThemeModeChanged,
     required this.onColorPresetChanged,
   });
 
   final CatalogSection selected;
+  final ExampleExperience experience;
   final ThemeMode themeMode;
   final YeknomColorPreset colorPreset;
   final ValueChanged<CatalogSection> onSectionChanged;
+  final ValueChanged<ExampleExperience> onExperienceChanged;
   final ValueChanged<ThemeMode> onThemeModeChanged;
   final ValueChanged<YeknomColorPreset> onColorPresetChanged;
 
@@ -88,6 +93,7 @@ class _DesktopShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = YeknomPalette.of(context);
     return Row(
+      key: const ValueKey('workbench_desktop_shell'),
       children: [
         SizedBox(
           width: 242,
@@ -101,6 +107,14 @@ class _DesktopShell extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const _BrandLockup(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 14),
+                        child: ExperienceSwitcher(
+                          current: experience,
+                          onChanged: onExperienceChanged,
+                          compact: true,
+                        ),
+                      ),
                       Divider(color: palette.border),
                       const Padding(
                         padding: EdgeInsets.fromLTRB(18, 18, 18, 8),
@@ -151,23 +165,7 @@ class _DesktopShell extends StatelessWidget {
                               onChanged: onColorPresetChanged,
                             ),
                             const SizedBox(height: YeknomSpacing.md),
-                            Row(
-                              children: [
-                                const CatalogVersion(),
-                                const Spacer(),
-                                Icon(Icons.circle, color: palette.ack, size: 8),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'READY',
-                                  style: TextStyle(
-                                    color: palette.muted,
-                                    fontFamily: 'monospace',
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            _CatalogFooterStatus(palette: palette),
                           ],
                         ),
                       ),
@@ -195,17 +193,21 @@ class _DesktopShell extends StatelessWidget {
 class _CompactShell extends StatelessWidget {
   const _CompactShell({
     required this.selected,
+    required this.experience,
     required this.themeMode,
     required this.colorPreset,
     required this.onSectionChanged,
+    required this.onExperienceChanged,
     required this.onThemeModeChanged,
     required this.onColorPresetChanged,
   });
 
   final CatalogSection selected;
+  final ExampleExperience experience;
   final ThemeMode themeMode;
   final YeknomColorPreset colorPreset;
   final ValueChanged<CatalogSection> onSectionChanged;
+  final ValueChanged<ExampleExperience> onExperienceChanged;
   final ValueChanged<ThemeMode> onThemeModeChanged;
   final ValueChanged<YeknomColorPreset> onColorPresetChanged;
 
@@ -213,6 +215,7 @@ class _CompactShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = YeknomPalette.of(context);
     return Column(
+      key: const ValueKey('workbench_compact_shell'),
       children: [
         Container(
           padding: const EdgeInsets.fromLTRB(14, 10, 12, 10),
@@ -255,6 +258,17 @@ class _CompactShell extends StatelessWidget {
                 onChanged: onThemeModeChanged,
               ),
             ],
+          ),
+        ),
+        ColoredBox(
+          color: palette.module,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+            child: ExperienceSwitcher(
+              current: experience,
+              onChanged: onExperienceChanged,
+              compact: true,
+            ),
           ),
         ),
         ColoredBox(
@@ -770,5 +784,39 @@ class CatalogVersion extends StatelessWidget {
         fontWeight: FontWeight.w600,
       ),
     );
+  }
+}
+
+class _CatalogFooterStatus extends StatelessWidget {
+  const _CatalogFooterStatus({required this.palette});
+
+  final YeknomPalette palette;
+
+  @override
+  Widget build(BuildContext context) {
+    final ready = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.circle, color: palette.ack, size: 8),
+        const SizedBox(width: 6),
+        Text(
+          'READY',
+          style: TextStyle(
+            color: palette.muted,
+            fontFamily: 'monospace',
+            fontSize: 9,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    );
+    final stack = MediaQuery.textScalerOf(context).scale(9) >= 16;
+    if (stack) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [const CatalogVersion(), const SizedBox(height: 6), ready],
+      );
+    }
+    return Row(children: [const CatalogVersion(), const Spacer(), ready]);
   }
 }

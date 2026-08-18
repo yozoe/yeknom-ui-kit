@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom logo</title>
+  <desc id="desc">An asymmetric curved Y-shaped signal path inside a rounded workbench tile.</desc>
+  <rect x="16" y="16" width="480" height="480" rx="128" fill="#12191C"/>
+  <rect x="36" y="36" width="440" height="440" rx="108" fill="#1B2529" stroke="#DCE6E3" stroke-opacity=".14" stroke-width="2"/>
+  <path d="M176 174c26 14 52 52 80 82" fill="none" stroke="#E6B36A" stroke-width="52" stroke-linecap="round"/>
+  <path d="M366 137c-33 18-66 71-110 119" fill="none" stroke="#78B9C7" stroke-width="52" stroke-linecap="round"/>
+  <path d="M256 256c6 42-6 84 0 126" fill="none" stroke="#DCE6E3" stroke-width="52" stroke-linecap="round"/>
+  <path d="M181 175c14 10 26 24 36 38" fill="none" stroke="#FFF0C6" stroke-opacity=".28" stroke-width="8" stroke-linecap="round"/>
+  <path d="M361 139c-20 14-37 35-51 57" fill="none" stroke="#D8FBFC" stroke-opacity=".26" stroke-width="8" stroke-linecap="round"/>
+  <path d="M262 287c0 17-3 34-6 49" fill="none" stroke="#FFFFFF" stroke-opacity=".24" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="256" cy="256" r="34" fill="#1B2529"/>
+  <circle cx="256" cy="256" r="14" fill="#E6B36A"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 256" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom UI Kit</title>
+  <desc id="desc">Yeknom modular signal mark with the Yeknom UI Kit wordmark.</desc>
+  <g transform="translate(8 8) scale(.46875)">
+    <rect x="16" y="16" width="480" height="480" rx="128" fill="#12191C"/>
+    <rect x="36" y="36" width="440" height="440" rx="108" fill="#1B2529" stroke="#DCE6E3" stroke-opacity=".14" stroke-width="2"/>
+    <path d="M155 155 256 256" fill="none" stroke="#E6B36A" stroke-width="52" stroke-linecap="round"/>
+    <path d="M357 155 256 256" fill="none" stroke="#78B9C7" stroke-width="52" stroke-linecap="round"/>
+    <path d="M256 256v126" fill="none" stroke="#DCE6E3" stroke-width="52" stroke-linecap="round"/>
+    <circle cx="256" cy="256" r="34" fill="#1B2529"/>
+    <circle cx="256" cy="256" r="14" fill="#E6B36A"/>
+  </g>
+  <text x="282" y="126" fill="#172326" font-family="Inter, SF Pro Display, Segoe UI, sans-serif" font-size="82" font-weight="700" letter-spacing="-2">Yeknom</text>
+  <text x="286" y="178" fill="#526B72" font-family="Inter, SF Pro Text, Segoe UI, sans-serif" font-size="30" font-weight="600" letter-spacing="7">UI KIT</text>
+</svg>

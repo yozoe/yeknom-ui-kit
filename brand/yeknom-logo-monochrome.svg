@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom monochrome logo</title>
+  <desc id="desc">A single-color asymmetric curved Y-shaped signal path.</desc>
+  <g fill="none" stroke="#172326" stroke-width="52" stroke-linecap="round">
+    <path d="M176 174c26 14 52 52 80 82"/>
+    <path d="M366 137c-33 18-66 71-110 119"/>
+    <path d="M256 256c6 42-6 84 0 126"/>
+  </g>
+  <circle cx="256" cy="256" r="34" fill="#FFFFFF"/>
+  <circle cx="256" cy="256" r="14" fill="#172326"/>
+</svg>

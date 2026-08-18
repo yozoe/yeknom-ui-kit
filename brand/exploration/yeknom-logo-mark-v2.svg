@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom Signal Forge logo exploration</title>
+  <desc id="desc">A dramatic angular Y made from two flared signal wings, a tapered trace blade, and a luminous core.</desc>
+  <defs>
+    <radialGradient id="surface" cx="50%" cy="42%" r="68%">
+      <stop offset="0" stop-color="#26383B"/>
+      <stop offset=".62" stop-color="#182326"/>
+      <stop offset="1" stop-color="#101719"/>
+    </radialGradient>
+    <linearGradient id="frame" x1="74" y1="92" x2="438" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E6B36A"/>
+      <stop offset=".48" stop-color="#DCE6E3"/>
+      <stop offset="1" stop-color="#78B9C7"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="97" y1="70" x2="270" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF0B5"/>
+      <stop offset=".43" stop-color="#E6B36A"/>
+      <stop offset="1" stop-color="#BF681F"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="415" y1="70" x2="242" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C4FBF7"/>
+      <stop offset=".43" stop-color="#78B9C7"/>
+      <stop offset="1" stop-color="#2D7787"/>
+    </linearGradient>
+    <linearGradient id="trace" x1="256" y1="232" x2="256" y2="438" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6FFFC"/>
+      <stop offset=".54" stop-color="#DCE6E3"/>
+      <stop offset="1" stop-color="#78B9C7"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+  </defs>
+
+  <rect x="16" y="16" width="480" height="480" rx="128" fill="#0C1214"/>
+  <rect x="34" y="34" width="444" height="444" rx="110" fill="url(#surface)" stroke="url(#frame)" stroke-opacity=".46" stroke-width="3"/>
+
+  <path d="M76 174V111a35 35 0 0 1 35-35h63M436 174V111a35 35 0 0 0-35-35h-63"
+        fill="none" stroke="#DCE6E3" stroke-opacity=".15" stroke-width="4" stroke-linecap="round"/>
+  <path d="M76 338v63a35 35 0 0 0 35 35h63M436 338v63a35 35 0 0 1-35 35h-63"
+        fill="none" stroke="#DCE6E3" stroke-opacity=".1" stroke-width="4" stroke-linecap="round"/>
+
+  <circle cx="256" cy="250" r="73" fill="#E6B36A" fill-opacity=".16" filter="url(#glow)"/>
+  <circle cx="256" cy="250" r="52" fill="#78B9C7" fill-opacity=".18" filter="url(#glow)"/>
+
+  <path d="M244 263 82 132c-9-8-11-18-5-28l28-47c7-12 18-14 29-5l151 153Z"
+        fill="#080D0F" opacity=".74" transform="translate(-4 7)"/>
+  <path d="M268 263 430 132c9-8 11-18 5-28l-28-47c-7-12-18-14-29-5L227 205Z"
+        fill="#080D0F" opacity=".74" transform="translate(4 7)"/>
+  <path d="m211 235-18 127 63 84 63-84-18-127Z" fill="#080D0F" opacity=".78" transform="translate(0 8)"/>
+
+  <path d="M244 256 86 128c-8-7-10-16-5-25l28-45c6-10 15-12 25-4l150 152Z" fill="url(#amber)"/>
+  <path d="M268 256 426 128c8-7 10-16 5-25l-28-45c-6-10-15-12-25-4L228 206Z" fill="url(#cyan)"/>
+  <path d="m215 232-17 124 58 79 58-79-17-124Z" fill="url(#trace)"/>
+
+  <path d="m117 116 19-31 120 121-24 24Z" fill="#FFF8D7" fill-opacity=".28"/>
+  <path d="m395 116-19-31-120 121 24 24Z" fill="#E8FFFF" fill-opacity=".28"/>
+  <path d="m239 275-8 76 25 38 25-38-8-76Z" fill="#FFFFFF" fill-opacity=".22"/>
+
+  <path d="m256 188 56 32v64l-56 32-56-32v-64Z" fill="#12191C" stroke="url(#frame)" stroke-width="7"/>
+  <path d="m256 216 34 34-34 34-34-34Z" fill="#E6B36A"/>
+  <path d="m256 228 22 22-22 22-22-22Z" fill="#FFF0B5"/>
+  <circle cx="256" cy="250" r="8" fill="#172326"/>
+
+  <path d="M256 54v29M215 66l14 25M297 66l-14 25" fill="none" stroke="#DCE6E3" stroke-width="6" stroke-linecap="round"/>
+  <path d="m124 258-22 9 22 9M388 258l22 9-22 9" fill="none" stroke="#78B9C7" stroke-opacity=".6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

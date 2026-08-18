@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom desktop icon preview</title>
+  <desc id="desc">The Yeknom icon shown on a macOS-style desktop and Dock at realistic sizes.</desc>
+  <defs>
+    <linearGradient id="wallpaper" x1="100" y1="0" x2="1320" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#142A36"/>
+      <stop offset=".46" stop-color="#2D4053"/>
+      <stop offset="1" stop-color="#4D3155"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="0%" r="90%">
+      <stop stop-color="#7BC4C9" stop-opacity=".34"/>
+      <stop offset=".62" stop-color="#7B5D91" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#10171D" stop-opacity=".2"/>
+    </radialGradient>
+    <linearGradient id="genericA" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFB978"/>
+      <stop offset="1" stop-color="#E7667D"/>
+    </linearGradient>
+    <linearGradient id="genericB" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#72C9F3"/>
+      <stop offset="1" stop-color="#496FE8"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="190%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#081014" flood-opacity=".38"/>
+    </filter>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="190%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#081014" flood-opacity=".32"/>
+    </filter>
+    <symbol id="yeknomIcon" viewBox="0 0 1024 1024">
+      <rect x="96" y="96" width="832" height="832" rx="190" fill="#12191C"/>
+      <rect x="120" y="120" width="784" height="784" rx="166" fill="#1B2529" stroke="#DCE6E3" stroke-opacity=".14" stroke-width="4"/>
+      <path d="M352 348c52 28 104 104 160 164" fill="none" stroke="#E6B36A" stroke-width="104" stroke-linecap="round"/>
+      <path d="M732 274c-66 36-132 142-220 238" fill="none" stroke="#78B9C7" stroke-width="104" stroke-linecap="round"/>
+      <path d="M512 512c12 84-12 168 0 252" fill="none" stroke="#DCE6E3" stroke-width="104" stroke-linecap="round"/>
+      <path d="M362 350c28 20 52 48 72 76" fill="none" stroke="#FFF0C6" stroke-opacity=".28" stroke-width="16" stroke-linecap="round"/>
+      <path d="M722 278c-40 28-74 70-102 114" fill="none" stroke="#D8FBFC" stroke-opacity=".26" stroke-width="16" stroke-linecap="round"/>
+      <path d="M524 574c0 34-6 68-12 98" fill="none" stroke="#FFFFFF" stroke-opacity=".24" stroke-width="16" stroke-linecap="round"/>
+      <circle cx="512" cy="512" r="68" fill="#1B2529"/>
+      <circle cx="512" cy="512" r="28" fill="#E6B36A"/>
+    </symbol>
+  </defs>
+
+  <rect width="1440" height="900" fill="url(#wallpaper)"/>
+  <rect width="1440" height="900" fill="url(#glow)"/>
+  <path d="M0 535C275 425 445 670 720 548s425-45 720-170v522H0Z" fill="#081015" fill-opacity=".2"/>
+
+  <rect width="1440" height="32" fill="#0A1014" fill-opacity=".28"/>
+  <circle cx="22" cy="16" r="5" fill="#F2F6F5" fill-opacity=".9"/>
+  <text x="39" y="21" fill="#F5F8F8" font-family="SF Pro Text, Inter, sans-serif" font-size="13" font-weight="700">Yeknom UI Kit</text>
+  <text x="1300" y="21" fill="#F5F8F8" font-family="SF Pro Text, Inter, sans-serif" font-size="13">Mon 13:36</text>
+
+  <g filter="url(#softShadow)">
+    <use href="#yeknomIcon" x="1110" y="122" width="138" height="138"/>
+    <rect x="1099" y="262" width="160" height="26" rx="8" fill="#11191D" fill-opacity=".54"/>
+    <text x="1179" y="280" text-anchor="middle" fill="#FFFFFF" font-family="SF Pro Text, Inter, sans-serif" font-size="14" font-weight="600">Yeknom UI Kit</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="365" y="714" width="710" height="138" rx="38" fill="#EEF4F5" fill-opacity=".16" stroke="#FFFFFF" stroke-opacity=".22"/>
+    <rect x="389" y="733" width="98" height="98" rx="26" fill="url(#genericA)"/>
+    <circle cx="438" cy="782" r="24" fill="#FFFFFF" fill-opacity=".74"/>
+    <rect x="500" y="733" width="98" height="98" rx="26" fill="#F4F6F7"/>
+    <path d="M523 767h52v32h-52Z" fill="#668A9B"/>
+    <path d="m523 767 26-17 26 17Z" fill="#80AEC1"/>
+    <rect x="611" y="733" width="98" height="98" rx="26" fill="url(#genericB)"/>
+    <path d="M640 801c0-31 40-31 40 0" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+
+    <use href="#yeknomIcon" x="706" y="720" width="124" height="124"/>
+
+    <rect x="827" y="733" width="98" height="98" rx="26" fill="#F5F6F7"/>
+    <circle cx="876" cy="782" r="30" fill="#83C4A7"/>
+    <path d="M861 782h30M876 767v30" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+    <rect x="938" y="733" width="98" height="98" rx="26" fill="#2D333A"/>
+    <path d="M963 780h48M987 756v48" stroke="#DCE6E3" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="702" y="675" width="132" height="32" rx="10" fill="#11191D" fill-opacity=".86"/>
+    <text x="768" y="696" text-anchor="middle" fill="#FFFFFF" font-family="SF Pro Text, Inter, sans-serif" font-size="14" font-weight="600">Yeknom UI Kit</text>
+  </g>
+</svg>

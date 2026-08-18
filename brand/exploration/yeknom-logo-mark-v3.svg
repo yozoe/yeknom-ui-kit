@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom Soft Flow logo exploration</title>
+  <desc id="desc">The original modular Y mark redrawn with gently sweeping curved paths.</desc>
+  <rect x="16" y="16" width="480" height="480" rx="128" fill="#12191C"/>
+  <rect x="36" y="36" width="440" height="440" rx="108" fill="#1B2529" stroke="#DCE6E3" stroke-opacity=".14" stroke-width="2"/>
+
+  <path d="M155 155c29 16 59 58 101 101"
+        fill="none" stroke="#E6B36A" stroke-width="52" stroke-linecap="round"/>
+  <path d="M357 155c-29 16-59 58-101 101"
+        fill="none" stroke="#78B9C7" stroke-width="52" stroke-linecap="round"/>
+  <path d="M256 256c6 42-6 84 0 126"
+        fill="none" stroke="#DCE6E3" stroke-width="52" stroke-linecap="round"/>
+
+  <path d="M160 156c19 13 31 28 42 44"
+        fill="none" stroke="#FFF0C6" stroke-opacity=".28" stroke-width="8" stroke-linecap="round"/>
+  <path d="M352 156c-19 13-31 28-42 44"
+        fill="none" stroke="#D8FBFC" stroke-opacity=".26" stroke-width="8" stroke-linecap="round"/>
+  <path d="M262 287c0 17-3 34-6 49"
+        fill="none" stroke="#FFFFFF" stroke-opacity=".24" stroke-width="8" stroke-linecap="round"/>
+
+  <circle cx="256" cy="256" r="34" fill="#1B2529"/>
+  <circle cx="256" cy="256" r="14" fill="#E6B36A"/>
+</svg>

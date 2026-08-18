@@ -1,5 +1,15 @@
 ## Unreleased
 
+- 将 UI Kit 划分为 Workbench 管理后台体验与 App 用户端体验；两者共享语义色，
+  但使用独立的页面结构、控件密度和 ThemeData。
+- 新增 `yeknom_foundation.dart`、`yeknom_workbench.dart` 和
+  `yeknom_app.dart` 三个明确入口；`yeknom_ui_kit.dart` 继续保留原有导出与
+  `YeknomTheme` 兼容行为。
+- 新增 `YeknomWorkbenchTheme` 委托入口，以及独立构建的
+  `YeknomAppTheme`、`YeknomAppThemeTokens`。
+- 新增 `YeknomAppPage`、`YeknomAppHero`、`YeknomAppCard`、
+  `YeknomAppSection`、`YeknomAppActionTile` 和 `YeknomAppSheet`，并在
+  Catalog 中提供 Workbench/App 双体验切换与页面预览。
 - 新增工作台、钴蓝、兰紫和石墨四套 `YeknomColorPreset` 颜色组合。
 - 增加黑曜、午夜和紫黑三套近黑背景颜色组合。
 - 增加一套避免纯白、纯黑表面的 `sage` 护眼颜色组合。

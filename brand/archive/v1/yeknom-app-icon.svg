@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom UI Kit app icon</title>
+  <desc id="desc">A modular Y-shaped signal path inside a rounded dark workbench tile.</desc>
+  <rect x="40" y="40" width="944" height="944" rx="252" fill="#12191C"/>
+  <rect x="78" y="78" width="868" height="868" rx="214" fill="#1B2529" stroke="#DCE6E3" stroke-opacity=".14" stroke-width="4"/>
+  <path d="M310 310 512 512" fill="none" stroke="#E6B36A" stroke-width="104" stroke-linecap="round"/>
+  <path d="M714 310 512 512" fill="none" stroke="#78B9C7" stroke-width="104" stroke-linecap="round"/>
+  <path d="M512 512v252" fill="none" stroke="#DCE6E3" stroke-width="104" stroke-linecap="round"/>
+  <circle cx="512" cy="512" r="68" fill="#1B2529"/>
+  <circle cx="512" cy="512" r="28" fill="#E6B36A"/>
+</svg>

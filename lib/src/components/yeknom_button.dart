@@ -105,13 +105,7 @@ class YeknomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final callback = loading ? null : onPressed;
-    final progress = SizedBox.square(
-      dimension: 16,
-      child: CircularProgressIndicator(
-        strokeWidth: 2,
-        color: _foregroundColor(context),
-      ),
-    );
+    const progress = _YeknomButtonProgress();
     final effectiveLabel = loading && icon == null
         ? Stack(
             alignment: Alignment.center,
@@ -186,14 +180,22 @@ class YeknomButton extends StatelessWidget {
       child: button,
     );
   }
+}
 
-  Color? _foregroundColor(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return switch (variant) {
-      YeknomButtonVariant.filled => scheme.onPrimary,
-      YeknomButtonVariant.outlined ||
-      YeknomButtonVariant.text => scheme.primary,
-    };
+class _YeknomButtonProgress extends StatelessWidget {
+  const _YeknomButtonProgress();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: 16,
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+        color:
+            IconTheme.of(context).color ??
+            DefaultTextStyle.of(context).style.color,
+      ),
+    );
   }
 }
 

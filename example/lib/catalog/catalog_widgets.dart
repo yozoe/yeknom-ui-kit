@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yeknom_ui_kit/yeknom_ui_kit.dart';
+import 'package:yeknom_ui_kit/yeknom_workbench.dart';
 
 import 'catalog_section.dart';
 

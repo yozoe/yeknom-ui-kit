@@ -19,3 +19,4 @@ export 'src/foundation/yeknom_palette.dart';
 export 'src/foundation/yeknom_tokens.dart';
 export 'src/foundation/yeknom_tone.dart';
 export 'src/theme/yeknom_theme.dart';
+export 'src/theme/yeknom_workbench_theme.dart';

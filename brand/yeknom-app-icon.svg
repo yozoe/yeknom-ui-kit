@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom UI Kit app icon</title>
+  <desc id="desc">A desktop-optimized asymmetric curved Y-shaped signal path inside a padded workbench tile.</desc>
+  <rect x="96" y="96" width="832" height="832" rx="190" fill="#12191C"/>
+  <rect x="120" y="120" width="784" height="784" rx="166" fill="#1B2529" stroke="#DCE6E3" stroke-opacity=".14" stroke-width="4"/>
+  <path d="M352 348c52 28 104 104 160 164" fill="none" stroke="#E6B36A" stroke-width="104" stroke-linecap="round"/>
+  <path d="M732 274c-66 36-132 142-220 238" fill="none" stroke="#78B9C7" stroke-width="104" stroke-linecap="round"/>
+  <path d="M512 512c12 84-12 168 0 252" fill="none" stroke="#DCE6E3" stroke-width="104" stroke-linecap="round"/>
+  <path d="M362 350c28 20 52 48 72 76" fill="none" stroke="#FFF0C6" stroke-opacity=".28" stroke-width="16" stroke-linecap="round"/>
+  <path d="M722 278c-40 28-74 70-102 114" fill="none" stroke="#D8FBFC" stroke-opacity=".26" stroke-width="16" stroke-linecap="round"/>
+  <path d="M524 574c0 34-6 68-12 98" fill="none" stroke="#FFFFFF" stroke-opacity=".24" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="512" cy="512" r="68" fill="#1B2529"/>
+  <circle cx="512" cy="512" r="28" fill="#E6B36A"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Yeknom UI Kit maskable icon</title>
+  <desc id="desc">A crop-safe asymmetric curved Y-shaped signal path on a dark workbench field.</desc>
+  <rect width="1024" height="1024" fill="#12191C"/>
+  <rect x="128" y="128" width="768" height="768" rx="188" fill="#1B2529" stroke="#DCE6E3" stroke-opacity=".14" stroke-width="4"/>
+  <path d="M364 356c48 26 96 96 148 156" fill="none" stroke="#E6B36A" stroke-width="96" stroke-linecap="round"/>
+  <path d="M714 294c-60 34-122 132-202 218" fill="none" stroke="#78B9C7" stroke-width="96" stroke-linecap="round"/>
+  <path d="M512 512c12 78-12 156 0 232" fill="none" stroke="#DCE6E3" stroke-width="96" stroke-linecap="round"/>
+  <path d="M374 358c26 18 48 44 66 70" fill="none" stroke="#FFF0C6" stroke-opacity=".28" stroke-width="15" stroke-linecap="round"/>
+  <path d="M704 298c-36 26-68 64-94 104" fill="none" stroke="#D8FBFC" stroke-opacity=".26" stroke-width="15" stroke-linecap="round"/>
+  <path d="M524 570c0 32-6 62-12 90" fill="none" stroke="#FFFFFF" stroke-opacity=".24" stroke-width="15" stroke-linecap="round"/>
+  <circle cx="512" cy="512" r="64" fill="#1B2529"/>
+  <circle cx="512" cy="512" r="26" fill="#E6B36A"/>
+</svg>

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yeknom_ui_kit/yeknom_ui_kit.dart';
 
@@ -133,6 +134,87 @@ void main() {
     expect(materials.any((material) => material.elevation == 7), isTrue);
   });
 
+  testWidgets('strengthens selected fill and label without an underline', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(
+        YeknomSegmentedTabs<String>(
+          segments: const [
+            ButtonSegment(value: 'one', label: Text('One')),
+            ButtonSegment(value: 'two', label: Text('Two')),
+          ],
+          selected: const {'one'},
+          onSelectionChanged: (_) {},
+        ),
+      ),
+    );
+
+    final nativeFinder = find.byType(SegmentedButton<String>);
+    final context = tester.element(nativeFinder);
+    final palette = YeknomPalette.of(context);
+    final style = SegmentedButtonTheme.of(context).style!;
+    final selectedBackground = style.backgroundColor!.resolve({
+      WidgetState.selected,
+    })!;
+    final selectedText = style.textStyle!.resolve({WidgetState.selected})!;
+    final unselectedText = style.textStyle!.resolve(const {})!;
+
+    expect(
+      _contrast(selectedBackground, palette.field),
+      greaterThan(_contrast(palette.selected, palette.field)),
+    );
+    expect(
+      selectedText.fontWeight!.value,
+      greaterThan(unselectedText.fontWeight!.value),
+    );
+    expect(selectedText.fontWeight!.value, greaterThanOrEqualTo(700));
+    expect(
+      style.side!.resolve({WidgetState.selected})!.style,
+      BorderStyle.none,
+    );
+  });
+
+  testWidgets('shows a high-contrast keyboard focus ring inside the track', (
+    tester,
+  ) async {
+    final previousStrategy = FocusManager.instance.highlightStrategy;
+    FocusManager.instance.highlightStrategy =
+        FocusHighlightStrategy.alwaysTraditional;
+    addTearDown(() {
+      FocusManager.instance.highlightStrategy = previousStrategy;
+    });
+
+    await tester.pumpWidget(
+      _app(
+        YeknomSegmentedTabs<String>(
+          segments: const [
+            ButtonSegment(value: 'one', label: Text('One')),
+            ButtonSegment(value: 'two', label: Text('Two')),
+          ],
+          selected: const {'one'},
+          onSelectionChanged: (_) {},
+        ),
+      ),
+    );
+
+    await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+    await tester.pumpAndSettle();
+
+    final tabsFinder = find.byType(YeknomSegmentedTabs<String>);
+    final track = tester.widget<AnimatedContainer>(
+      find.descendant(of: tabsFinder, matching: find.byType(AnimatedContainer)),
+    );
+    final decoration = track.decoration! as BoxDecoration;
+    final border = decoration.border! as Border;
+    final palette = YeknomPalette.of(tester.element(tabsFinder));
+
+    expect(border.top.width, 2);
+    expect(border.top.color, isNot(Colors.transparent));
+    expect(_contrast(border.top.color, palette.field), greaterThanOrEqualTo(3));
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('keeps an icon-only segment icon beside its selected icon', (
     tester,
   ) async {
@@ -190,4 +272,16 @@ void main() {
     expect(find.byType(IntrinsicWidth), findsNothing);
     expect(tester.takeException(), isNull);
   });
+}
+
+double _contrast(Color first, Color second) {
+  final firstLuminance = first.computeLuminance();
+  final secondLuminance = second.computeLuminance();
+  final lighter = firstLuminance > secondLuminance
+      ? firstLuminance
+      : secondLuminance;
+  final darker = firstLuminance > secondLuminance
+      ? secondLuminance
+      : firstLuminance;
+  return (lighter + 0.05) / (darker + 0.05);
 }
