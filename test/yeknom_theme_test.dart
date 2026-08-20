@@ -121,6 +121,37 @@ void main() {
       }
     });
 
+    test('obsidian uses a neutral graphite active color', () {
+      final light = YeknomPalette.fromPreset(
+        YeknomColorPreset.obsidian,
+        Brightness.light,
+      );
+      final dark = YeknomPalette.fromPreset(
+        YeknomColorPreset.obsidian,
+        Brightness.dark,
+      );
+
+      expect(light.active, const Color(0xFF1B2228));
+      expect(dark.active, const Color(0xFF99A2A8));
+      expect(_contrast(light.active, light.module), greaterThanOrEqualTo(4.5));
+      expect(_contrast(dark.active, dark.module), greaterThanOrEqualTo(4.5));
+
+      final neutralStatus = Color.alphaBlend(
+        YeknomTone.neutral.resolve(dark),
+        dark.module,
+      );
+      expect(
+        _contrast(neutralStatus, dark.module),
+        greaterThanOrEqualTo(3),
+        reason: 'dark neutral status indicators remain visible',
+      );
+      expect(
+        _contrast(dark.active, neutralStatus),
+        greaterThanOrEqualTo(1.75),
+        reason: 'dark info and neutral status indicators remain distinct',
+      );
+    });
+
     test('sage preset avoids pure white and pure black surfaces', () {
       final light = YeknomPalette.fromPreset(
         YeknomColorPreset.sage,
@@ -149,6 +180,27 @@ void main() {
             expect(
               _contrast(composited, surface),
               greaterThanOrEqualTo(4.5),
+              reason: '${preset.name} ${brightness.name}',
+            );
+          }
+        }
+      }
+    });
+
+    test('neutral status indicators meet graphical contrast on surfaces', () {
+      for (final preset in YeknomColorPreset.values) {
+        for (final brightness in Brightness.values) {
+          final palette = YeknomPalette.fromPreset(preset, brightness);
+          final neutral = YeknomTone.neutral.resolve(palette);
+
+          for (final surface in [palette.bench, palette.module]) {
+            final badgeBackground = Color.alphaBlend(
+              neutral.withValues(alpha: 0.09),
+              surface,
+            );
+            expect(
+              _contrast(neutral, badgeBackground),
+              greaterThanOrEqualTo(3),
               reason: '${preset.name} ${brightness.name}',
             );
           }
